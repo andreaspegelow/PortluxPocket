@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">PortluxPocket</string>
 
-    <string name="hello_world">Hello world!</string>
+
     <string name="action_settings">Settings</string>
+    <string name="Search">Sök</string>
+    <string name="searchHint">Namn eller båtplats</string>
 </resources>
