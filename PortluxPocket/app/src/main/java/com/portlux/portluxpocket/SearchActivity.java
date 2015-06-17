@@ -1,6 +1,7 @@
 package com.portlux.portluxpocket;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -25,8 +26,7 @@ public class SearchActivity extends Activity implements TextWatcher {
         searchField.addTextChangedListener(this);
 
         //Create the model
-        model = new SearchModel();
-
+        model = new SearchModel(this);
 
     }
 
