@@ -1,33 +1,24 @@
 package com.portlux.portluxpocket;
 
 /**
- * Created by Andreas on 2015-06-18.
+ * Created by Andreas Pegelow on 2015-06-18.
  */
 public class Berth {
+    private final String id;
     private final String pier;
     private final String name;
     private final String harbour;
-    private final String accessRightsUserID;
-    private final String tenancyUserID;
-    private final String berthID;
+    private final Contract accessRight;
+    private final Contract tenancy;
 
-
-    public Berth(String pier, String name, String harbour, String accessRightsUserID, String tenancyUserID, String berthID){
+    public Berth(String ID, String pier, String harbour, String name, Contract accessRight, Contract tenancy ){
+        id = ID;
 
         this.pier = pier;
         this.name = name;
         this.harbour = harbour;
-        this.accessRightsUserID = accessRightsUserID;
-        this.tenancyUserID = tenancyUserID;
-        this.berthID = berthID;
-    }
-
-    public String getTenancyUserID() {
-        return tenancyUserID;
-    }
-
-    public String getAccessRightsUserID() {
-        return accessRightsUserID;
+        this.accessRight = accessRight;
+        this.tenancy = tenancy;
     }
 
     public String getHarbour() {
@@ -54,7 +45,4 @@ public class Berth {
         return pier;
     }
 
-    public String getBerthID() {
-        return berthID;
-    }
 }
