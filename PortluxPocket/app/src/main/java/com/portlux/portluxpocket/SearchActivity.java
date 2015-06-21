@@ -1,21 +1,21 @@
 package com.portlux.portluxpocket;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Menu;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.NumberPicker;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.ListView;
 
 
 public class SearchActivity extends Activity implements TextWatcher {
     EditText searchField;
+    ListView listView;
+    ArrayAdapter listAdapter;
     SearchModel model;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +24,9 @@ public class SearchActivity extends Activity implements TextWatcher {
 
         searchField = (EditText)findViewById(R.id.searchField);
         searchField.addTextChangedListener(this);
+        listView = (ListView)findViewById(R.id.list);
+        listAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1);
+        listView.setAdapter(listAdapter);
 
         //Create the model
         model = new SearchModel(this);
@@ -50,11 +53,12 @@ public class SearchActivity extends Activity implements TextWatcher {
 
     @Override
     public void afterTextChanged(Editable s) {
-        model.search(searchField.getText().toString());
-        updateList();
+        listAdapter.clear();
+        for(User user: model.search(searchField.getText().toString())){
+            listAdapter.add(user.getName());
+        }
+        listAdapter.notifyDataSetChanged();
     }
 
-    private void updateList() {
 
-    }
 }

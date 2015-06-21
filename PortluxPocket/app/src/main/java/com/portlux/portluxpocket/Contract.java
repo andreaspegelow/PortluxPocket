@@ -8,11 +8,10 @@ public class Contract {
     private final Contract.contractType contractType;
     private final String berthID;
     private final String userId;
-    private final boolean free;
-    private final boolean vacant;
+    private boolean free = false;
+    private boolean vacant=false;
 
     public Contract(String ID, contractType contractType, String berthID, String userId, boolean free, boolean vacant) {
-
 
         this.id = ID;
         this.contractType = contractType;
@@ -20,6 +19,13 @@ public class Contract {
         this.userId = userId;
         this.free = free;
         this.vacant = vacant;
+    }
+
+    public Contract(String ID, contractType contractType, String berthID, String userId) {
+        this.id = ID;
+        this.contractType = contractType;
+        this.berthID = berthID;
+        this.userId = userId;
     }
 
     public String getId() {
