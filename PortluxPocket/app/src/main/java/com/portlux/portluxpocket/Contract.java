@@ -52,7 +52,7 @@ public class Contract {
         return vacant;
     }
 
-    public enum contractType {ACCESSRIGHT, TENANCY}
+    public enum contractType {OWNERSHIP, TENANCY}
 
     ;
 

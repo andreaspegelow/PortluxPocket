@@ -11,13 +11,13 @@ public class Berth {
     private final Contract accessRight;
     private final Contract tenancy;
 
-    public Berth(String ID, String pier, String harbour, String name, Contract accessRight, Contract tenancy ){
+    public Berth(String ID, String pier, String harbour, String name, Contract ownership, Contract tenancy ){
         id = ID;
 
         this.pier = pier;
         this.name = name;
         this.harbour = harbour;
-        this.accessRight = accessRight;
+        this.accessRight = ownership;
         this.tenancy = tenancy;
     }
 
