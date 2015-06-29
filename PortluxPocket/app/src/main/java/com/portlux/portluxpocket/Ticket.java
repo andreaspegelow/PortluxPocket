@@ -10,17 +10,19 @@ public class Ticket {
     private final String queue;
     private final String place;
     private final String start;
+    private final String wish;
     private final String userID;
     private final boolean ownership;
     private final boolean tenancy;
 
-    public Ticket(String id, String queue, String place, String start, String userID, boolean ownership, boolean tenancy ){
+    public Ticket(String id, String queue, String place, String start, String wish ,String userID, boolean ownership, boolean tenancy ){
 
 
         this.id = id;
         this.queue = queue;
         this.place = place;
         this.start = start;
+        this.wish = wish;
         this.userID = userID;
         this.ownership = ownership;
         this.tenancy = tenancy;
@@ -52,5 +54,9 @@ public class Ticket {
 
     public boolean isTenancy() {
         return tenancy;
+    }
+
+    public String getWish() {
+        return wish;
     }
 }

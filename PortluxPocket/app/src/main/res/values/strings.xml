@@ -8,4 +8,14 @@
     <string name="title_activity_splash_screen">SplashScreenActivity</string>
 
     <string name="splash">Portlux Pocket</string>
+    <string name="title_activity_detailed_view">DetailedViewActivity</string>
+
+
+    <string name="name">Namn namn</string>
+    <string name="email">email@mail.com</string>
+    <string name="cellphone">070-70 70 707</string>
+    <string name="peronalNumber">2000-01-01</string>
+    <string name="member">Medlem: </string>
+    <string name="setMember">Nej</string>
+    <string name="rowBerths">A1, B23, l32</string>
 </resources>

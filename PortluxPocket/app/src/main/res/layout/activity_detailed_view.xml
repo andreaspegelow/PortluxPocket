@@ -1,0 +1,62 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="com.portlux.portluxpocket.DetailedViewActivity">
+
+    <TextView android:text="@string/name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvName"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:textSize="20sp"
+        />
+
+    <TextView android:text="@string/email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvEmail"
+        android:layout_below="@+id/tvCellphone"
+        android:layout_alignLeft="@+id/tvCellphone"
+        android:layout_marginTop="10dp"
+
+         />
+    <TextView android:text="@string/member"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvMember"
+        android:layout_toRightOf="@+id/tvName"
+        android:layout_marginLeft="30dp"
+        android:layout_alignBottom="@+id/tvPersonalNumber"
+        />
+    <TextView android:text="@string/setMember"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvSetMember"
+        android:layout_toRightOf="@+id/tvMember"
+        android:layout_marginLeft="10dp"
+        android:layout_alignBottom="@+id/tvMember"
+        />
+
+    <TextView android:text="@string/cellphone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvCellphone"
+        android:layout_below="@+id/tvPersonalNumber"
+        android:layout_alignLeft="@+id/tvPersonalNumber"
+        android:layout_marginTop="10dp"
+        />
+
+    <TextView android:text="@string/peronalNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvPersonalNumber"
+        android:layout_below="@+id/tvName"
+        android:layout_alignLeft="@+id/tvName"
+        android:layout_marginTop="10dp"
+        />
+
+</RelativeLayout>
