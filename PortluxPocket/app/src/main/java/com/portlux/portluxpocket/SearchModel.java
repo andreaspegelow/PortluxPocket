@@ -1,6 +1,7 @@
 package com.portlux.portluxpocket;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.util.Log;
 
 import com.android.volley.DefaultRetryPolicy;
@@ -28,6 +29,7 @@ import java.util.List;
 public class SearchModel {
     boolean done = false;
     Activity view;
+    ProgressDialog loadingDialog;
 
 
     ArrayList<Berth> berths = new ArrayList<Berth>();
@@ -36,19 +38,20 @@ public class SearchModel {
 
     public SearchModel(Activity view) {
         this.view = view;
+        loadingDialog = new ProgressDialog(view);
+        loadingDialog.setMessage("Searching for Book");
+        loadingDialog.setCancelable(false);
+        loadingDialog.show();
         getDataFromDatabase();
 
 
     }
 
     public ArrayList<User> search(String querry) {
-        while(!done){
-
-        }
         ArrayList<User> searchResult= new ArrayList<User>();
         for(User user : users){
             Log.d("search", "loop");
-            if(user.getName().contains(querry)){
+            if(user.getName().toLowerCase().contains(querry.toLowerCase())){
                 Log.d("search", user.getName() +", querry: " + querry);
                 searchResult.add(user);
             }
@@ -197,8 +200,15 @@ public class SearchModel {
             eventType = parser.next();
 
         }
+
+        //TODO: Combined loading okeyGO
         done=true;
+        loadingDialog.dismiss();
+
         Log.d("portlux", "done loading");
+    }
+    public boolean internetRequestDone(){
+        return done;
     }
 
     /**

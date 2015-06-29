@@ -1,6 +1,8 @@
 package com.portlux.portluxpocket;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -16,11 +18,14 @@ public class SearchActivity extends Activity implements TextWatcher {
     ArrayAdapter listAdapter;
     SearchModel model;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
+        Intent intent = new Intent(this, SplashScreenActivity.class);
+        startActivity(intent);
+
+
 
         searchField = (EditText)findViewById(R.id.searchField);
         searchField.addTextChangedListener(this);
@@ -30,6 +35,10 @@ public class SearchActivity extends Activity implements TextWatcher {
 
         //Create the model
         model = new SearchModel(this);
+
+
+    }
+    public void notifyInternetRequestDone(){
 
     }
 
