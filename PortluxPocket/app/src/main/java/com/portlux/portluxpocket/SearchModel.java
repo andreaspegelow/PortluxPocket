@@ -18,10 +18,7 @@ import org.xmlpull.v1.XmlPullParserFactory;
 
 import java.io.IOException;
 import java.io.StringReader;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Andreas Pegelow on 2015-06-17.
@@ -39,7 +36,7 @@ public class SearchModel {
     public SearchModel(Activity view) {
         this.view = view;
         loadingDialog = new ProgressDialog(view);
-        loadingDialog.setMessage("Searching for Book");
+        loadingDialog.setMessage(Values.LOADINGMESSAGE);
         loadingDialog.setCancelable(false);
         loadingDialog.show();
         getDataFromDatabase();
