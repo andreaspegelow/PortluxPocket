@@ -89,7 +89,7 @@ public class SearchModel {
             }
         });
         // Because the file is to big the default timeout time is to small
-        stringRequest.setRetryPolicy(new DefaultRetryPolicy(30000,
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(Values.REQUEST_TIME_OUT,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
@@ -126,7 +126,7 @@ public class SearchModel {
         });
 
         // Because the file is to big the default timeout time is to small
-        stringRequest.setRetryPolicy(new DefaultRetryPolicy(30000,
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(Values.REQUEST_TIME_OUT,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
