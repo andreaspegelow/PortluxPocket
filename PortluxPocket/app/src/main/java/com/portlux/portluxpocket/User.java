@@ -15,11 +15,12 @@ public class User {
     private final String city;
     private final String personalIdentityNumber;
     private final String cellphoneNumber;
-    private final ArrayList<Contract> contracts;
+    private final ArrayList<Contract> tenancyContracts;
+    private final ArrayList<Contract> ownershipContracts;
     private final ArrayList<Ticket> tickets;
 
 
-    public User(String ID, String name, String phoneNumber, boolean member, String email, String city,  String personalIdentityNumber, String cellphoneNumber, ArrayList<Contract> contracts, ArrayList<Ticket> tickets ) {
+    public User(String ID, String name, String phoneNumber, boolean member, String email, String city,  String personalIdentityNumber, String cellphoneNumber, ArrayList<Contract> tenancyContracts, ArrayList<Contract> ownershipContracts,ArrayList<Ticket> tickets ) {
         this.id = ID;
         this.name = name;
         this.phoneNumber = phoneNumber;
@@ -28,12 +29,13 @@ public class User {
         this.city = city;
         this.personalIdentityNumber = personalIdentityNumber;
         this.cellphoneNumber = cellphoneNumber;
-        this.contracts = contracts;
+        this.tenancyContracts = tenancyContracts;
+        this.ownershipContracts= ownershipContracts;
         this.tickets = tickets;
     }
 
-    public ArrayList<Contract> getContracts() {
-        return contracts;
+    public ArrayList<Contract> getTenancyContracts() {
+        return tenancyContracts;
     }
 
     public String getCellphoneNumber() {
@@ -70,5 +72,9 @@ public class User {
 
     public ArrayList<Ticket> getTickets() {
         return tickets;
+    }
+
+    public ArrayList<Contract> getOwnershipContracts() {
+        return ownershipContracts;
     }
 }

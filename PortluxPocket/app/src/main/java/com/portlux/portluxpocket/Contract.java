@@ -7,24 +7,27 @@ public class Contract {
     private final String id;
     private final Contract.contractType contractType;
     private final String berthID;
+    private final String berth;
     private final String userId;
     private boolean free = false;
     private boolean vacant=false;
 
-    public Contract(String ID, contractType contractType, String berthID, String userId, boolean free, boolean vacant) {
+    public Contract(String ID, contractType contractType, String berthID, String berth, String userId, boolean free, boolean vacant) {
 
         this.id = ID;
         this.contractType = contractType;
         this.berthID = berthID;
+        this.berth = berth;
         this.userId = userId;
         this.free = free;
         this.vacant = vacant;
     }
 
-    public Contract(String ID, contractType contractType, String berthID, String userId) {
+    public Contract(String ID, contractType contractType, String berthID, String berth, String userId) {
         this.id = ID;
         this.contractType = contractType;
         this.berthID = berthID;
+        this.berth = berth;
         this.userId = userId;
     }
 
@@ -50,6 +53,10 @@ public class Contract {
 
     public boolean isVacant() {
         return vacant;
+    }
+
+    public String getBerth() {
+        return berth;
     }
 
     public enum contractType {OWNERSHIP, TENANCY}
