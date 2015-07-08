@@ -1,5 +1,7 @@
 package com.portlux.portluxpocket;
 
+import java.util.ArrayList;
+
 /**
  * Created by Andreas Pegelow on 2015-06-18.
  */
@@ -13,10 +15,11 @@ public class User {
     private final String city;
     private final String personalIdentityNumber;
     private final String cellphoneNumber;
-    private final Contract[] contracts;
+    private final ArrayList<Contract> contracts;
+    private final ArrayList<Ticket> tickets;
 
 
-    public User(String ID, String name, String phoneNumber, boolean member, String email, String city,  String personalIdentityNumber, String cellphoneNumber, Contract[] contracts) {
+    public User(String ID, String name, String phoneNumber, boolean member, String email, String city,  String personalIdentityNumber, String cellphoneNumber, ArrayList<Contract> contracts, ArrayList<Ticket> tickets ) {
         this.id = ID;
         this.name = name;
         this.phoneNumber = phoneNumber;
@@ -26,9 +29,10 @@ public class User {
         this.personalIdentityNumber = personalIdentityNumber;
         this.cellphoneNumber = cellphoneNumber;
         this.contracts = contracts;
+        this.tickets = tickets;
     }
 
-    public Contract[] getContracts() {
+    public ArrayList<Contract> getContracts() {
         return contracts;
     }
 
@@ -62,5 +66,9 @@ public class User {
 
     public String getId() {
         return id;
+    }
+
+    public ArrayList<Ticket> getTickets() {
+        return tickets;
     }
 }

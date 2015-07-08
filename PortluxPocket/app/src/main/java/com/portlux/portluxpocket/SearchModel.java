@@ -24,7 +24,6 @@ import java.util.ArrayList;
  * Created by Andreas Pegelow on 2015-06-17.
  */
 public class SearchModel {
-    boolean done = false;
     Activity view;
     ProgressDialog loadingDialog;
 
@@ -45,11 +44,11 @@ public class SearchModel {
     }
 
     public ArrayList<User> search(String querry) {
-        ArrayList<User> searchResult= new ArrayList<User>();
-        for(User user : users){
+        ArrayList<User> searchResult = new ArrayList<User>();
+        for (User user : users) {
             Log.d("search", "loop");
-            if(user.getName().toLowerCase().contains(querry.toLowerCase())){
-                Log.d("search", user.getName() +", querry: " + querry);
+            if (user.getName().toLowerCase().contains(querry.toLowerCase())) {
+                Log.d("search", user.getName() + ", querry: " + querry);
                 searchResult.add(user);
             }
         }
@@ -136,16 +135,39 @@ public class SearchModel {
     }
 
     private void ParseXMLUsersToObject(String data) throws XmlPullParserException, IOException {
+        boolean parsingContract = false;
+        boolean parsingTicket = false;
 
-        String id="";
-        String name="";
-        String phoneNumber="";
-        boolean member=false;
-        String email="";
-        String city="";
-        String personalIdentityNumber="";
-        String cellphoneNumber="";
-        Contract[] contracts;
+        String id = "";
+        String name = "";
+        String phoneNumber = "";
+        boolean member = false;
+        String email = "";
+        String city = "";
+        String personalIdentityNumber = "";
+        String cellphoneNumber = "";
+        ArrayList<Contract> tempContracts = new ArrayList<Contract>();
+
+        //Define temp variables to create a contract from
+        String tempContractId = "";
+        Contract.contractType tempContractType = Contract.contractType.OWNERSHIP;
+        String tempBerthID = "";
+        String tempUserId = "";
+        boolean tempFree = false;
+        boolean tempVacant = false;
+
+        ArrayList<Ticket> tempTickets = new ArrayList<Ticket>();
+
+        //Define temp variables to create a ticket from
+        String tempTicketId = "";
+        String tempQueue = "";
+        String tempPlace = "";
+        String tempStart = "";
+        String tempWish = "";
+        String tempUserID = "";
+        boolean tempOwnership = false;
+        boolean tempTenancy = false;
+
         //Create the parser
         XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
         factory.setNamespaceAware(true);
@@ -159,8 +181,14 @@ public class SearchModel {
         //loop through the string and look for tags corresponding to the class
         while (eventType != XmlPullParser.END_DOCUMENT) {
 
+            if (eventType == XmlPullParser.START_TAG && parser.getName().equalsIgnoreCase("contracts")) {
+                parsingContract = true;
+            } else if (eventType == XmlPullParser.START_TAG && parser.getName().equalsIgnoreCase("tickets")) {
+                parsingTicket = true;
+            }
+
             //Basic info
-            if (eventType == XmlPullParser.START_TAG) {
+            else if (eventType == XmlPullParser.START_TAG && !parsingContract && !parsingTicket) {
 
                 if (parser.getName().equalsIgnoreCase("id")) {
                     id = parser.nextText();
@@ -172,8 +200,9 @@ public class SearchModel {
                     String temp = parser.nextText();
                     if (temp.equalsIgnoreCase("0"))
                         member = false;
-                    else
+                    else {
                         member = true;
+                    }
                 } else if (parser.getName().equalsIgnoreCase("email")) {
                     email = parser.nextText();
                 } else if (parser.getName().equalsIgnoreCase("city")) {
@@ -184,14 +213,74 @@ public class SearchModel {
                     cellphoneNumber = parser.nextText();
                 } else if (parser.getName().equalsIgnoreCase("createtime")) {
                     skip(parser);
-                } else if (parser.getName().equalsIgnoreCase("contracts")) {
-                    skip(parser);
+                }
+                //Parsing contracts
+            } else if (eventType == XmlPullParser.START_TAG && parsingContract && !parsingTicket) {
+                if (parser.getName().equalsIgnoreCase("id")) {
+                    tempContractId = parser.nextText();
+                } else if (parser.getName().equalsIgnoreCase("type")) {
+                    if (parser.nextText().equalsIgnoreCase("Hyresrätt")) {
+                        tempContractType = Contract.contractType.OWNERSHIP;
+                    } else {
+                        tempContractType = Contract.contractType.TENANCY;
+                    }
+
+                } else if (parser.getName().equalsIgnoreCase("berthid")) {
+                    tempBerthID = parser.nextText();
+
+                } else if (parser.getName().equalsIgnoreCase("userid")) {
+                    tempUserId = parser.nextText();
+                } else if (parser.getName().equalsIgnoreCase("free")) {
+                    if (parser.nextText().equalsIgnoreCase("0")) {
+                        tempFree = false;
+                    } else {
+                        tempFree = true;
+                    }
+                } else if (parser.getName().equalsIgnoreCase("vacant")) {
+                    if (parser.nextText().equalsIgnoreCase("0")) {
+                        tempVacant = false;
+                    } else {
+                        tempVacant = true;
+
+                    }
+                }
+            } else if (eventType == XmlPullParser.START_TAG && !parsingContract && parsingTicket) {
+                if (parser.getName().equalsIgnoreCase("id")) {
+                    tempTicketId = parser.nextText();
+                } else if (parser.getName().equalsIgnoreCase("queue")) {
+                    tempQueue = parser.nextText();
+                } else if (parser.getName().equalsIgnoreCase("place")) {
+                    tempPlace = parser.nextText();
+                } else if (parser.getName().equalsIgnoreCase("start")) {
+                    tempStart = parser.nextText();
+                } else if (parser.getName().equalsIgnoreCase("wish")) {
+                    tempWish = parser.nextText();
+                } else if (parser.getName().equalsIgnoreCase("userid")) {
+                    tempUserID = parser.nextText();
+                } else if (parser.getName().equalsIgnoreCase("contracttypes")) {
+                    String temp= parser.nextText();
+                    if (temp.equalsIgnoreCase("Nyttjanderätt")) {
+                        tempOwnership = true;
+                    } else if (temp.equalsIgnoreCase("Hyresrätt")) {
+                        tempTenancy = true;
+                    }
                 }
 
 
+                //Add the user to the list along with the contracts and tickets
             } else if (eventType == XmlPullParser.END_TAG && parser.getName().equalsIgnoreCase("item")) {
-                users.add(new User(id, name, phoneNumber, member, email, city, personalIdentityNumber, cellphoneNumber, null));
+                users.add(new User(id, name, phoneNumber, member, email, city, personalIdentityNumber, cellphoneNumber, tempContracts, tempTickets));
 
+                //Add the current contract to the contract list.
+            } else if (eventType == XmlPullParser.END_TAG && parser.getName().equalsIgnoreCase("contracts")) {
+                parsingContract = false;
+                tempContracts.add(new Contract(tempContractId, tempContractType, tempBerthID, tempUserId, tempFree, tempVacant));
+
+            }else if (eventType == XmlPullParser.END_TAG && parser.getName().equalsIgnoreCase("tickets")) {
+                parsingTicket = false;
+                tempTickets.add(new Ticket(tempTicketId, tempQueue, tempPlace, tempStart, tempWish, tempUserID, tempOwnership,tempTenancy));
+                tempOwnership = false;
+                tempTenancy= false;
 
             }
             eventType = parser.next();
@@ -199,14 +288,11 @@ public class SearchModel {
         }
 
         //TODO: Combined loading okeyGO
-        done=true;
         loadingDialog.dismiss();
 
-        Log.d("portlux", "done loading");
+        //Log.d("portlux", "done loading");
     }
-    public boolean internetRequestDone(){
-        return done;
-    }
+
 
     /**
      * Skips from the current start_tag to the end and consumes all info in between
@@ -249,7 +335,7 @@ public class SearchModel {
 
         //Define temp variables to create a contract from
         String tempContractId = "";
-        Contract.contractType contractType = Contract.contractType.ACCESSRIGHT;
+        Contract.contractType contractType = Contract.contractType.OWNERSHIP;
         String tempBerthID = "";
         String tempUserId = "";
         boolean tempFree = false;
