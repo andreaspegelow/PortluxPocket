@@ -20,7 +20,7 @@ import java.util.ArrayList;
 public class SearchActivity extends ActionBarActivity implements TextWatcher, AdapterView.OnItemClickListener {
     EditText searchField;
     ListView listView;
-    ArrayAdapter listAdapter;
+    SearchListAdapter listAdapter;
     SearchModel model;
     ArrayList<User> searchResult = new ArrayList<User>();
 
@@ -37,7 +37,7 @@ public class SearchActivity extends ActionBarActivity implements TextWatcher, Ad
         searchField.addTextChangedListener(this);
         listView = (ListView)findViewById(R.id.list);
         listView.setOnItemClickListener(this);
-        listAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1);
+        listAdapter = new SearchListAdapter(getLayoutInflater());
         listView.setAdapter(listAdapter);
 
         //Create the model
@@ -66,12 +66,9 @@ public class SearchActivity extends ActionBarActivity implements TextWatcher, Ad
 
     @Override
     public void afterTextChanged(Editable s) {
-        listAdapter.clear();
+
         searchResult = model.search(searchField.getText().toString());
-        for(User user: searchResult){
-            listAdapter.add(user.getName());
-        }
-        listAdapter.notifyDataSetChanged();
+        listAdapter.updateData(searchResult);
     }
 
 

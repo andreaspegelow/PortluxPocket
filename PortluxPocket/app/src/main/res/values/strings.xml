@@ -11,7 +11,7 @@
     <string name="title_activity_detailed_view">DetailedViewActivity</string>
 
 
-    <string name="name">Namn namn</string>
+    <string name="name">Namn</string>
     <string name="email">email@mail.com</string>
     <string name="cellphone">070-70 70 707</string>
     <string name="peronalNumber">2000-01-01</string>
@@ -19,4 +19,6 @@
     <string name="setMember">Nej</string>
     <string name="rowBerthsOwnership">A2, B43, ...</string>
     <string name="rowBerthsTenacy">A43, K7, ...</string>
+    <string name="TenancyTitle">Hyresrätter</string>
+    <string name="OwnershipTitle">Nyttjanderätter</string>
 </resources>
