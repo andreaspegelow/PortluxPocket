@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">PortluxPocket</string>
+    <string name="app_name">Portlux</string>
 
 
     <string name="action_settings">Settings</string>
@@ -17,5 +17,6 @@
     <string name="peronalNumber">2000-01-01</string>
     <string name="member">Medlem: </string>
     <string name="setMember">Nej</string>
-    <string name="rowBerths">A1, B23, l32</string>
+    <string name="rowBerthsOwnership">A2, B43, ...</string>
+    <string name="rowBerthsTenacy">A43, K7, ...</string>
 </resources>

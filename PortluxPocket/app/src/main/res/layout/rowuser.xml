@@ -8,22 +8,42 @@
         android:id="@+id/rowName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/name"
-        android:textSize="30sp"
-        android:layout_marginTop="15dp"
+        android:layout_marginLeft="20dp"
         android:layout_marginStart="30dp"
-        android:layout_marginLeft="30dp"/>
+        android:layout_marginTop="15dp"
+        android:text="@string/name"
+        android:textColor="#333333"
+        android:textSize="25sp" />
 
     <TextView
-        android:id="@+id/rowBerths"
-        android:layout_marginStart="30dp"
-        android:layout_marginLeft="30dp"
+        android:id="@+id/rowBerthsOwnership"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/rowBerths"
-        android:textSize="20sp"
-        android:gravity="bottom"
+        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="15dp"
+        android:text="@string/rowBerthsOwnership"
+        android:textSize="18sp"
+        />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_marginTop="15dp"
+        android:src="@drawable/divider"/>
+
+    <TextView
+        android:id="@+id/rowBerthsTenancy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="15dp"
+        android:text="@string/rowBerthsTenacy"
+        android:textSize="18sp"
+
 
         />
+
 
 </LinearLayout>
