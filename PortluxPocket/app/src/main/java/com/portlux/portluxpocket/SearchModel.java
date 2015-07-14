@@ -16,12 +16,14 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 
 /**
  * Created by Andreas Pegelow on 2015-06-17.
@@ -33,6 +35,8 @@ public class SearchModel {
 
     ArrayList<Berth> berths = new ArrayList<Berth>();
     ArrayList<User> users = new ArrayList<User>();
+
+    private List<PropertyChangeListener> listener = new ArrayList<PropertyChangeListener>();
 
 
     public SearchModel(Activity view) {
@@ -48,11 +52,23 @@ public class SearchModel {
 
     public ArrayList<User> search(String querry) {
         ArrayList<User> searchResult = new ArrayList<User>();
+
         for (User user : users) {
             Log.d("search", "loop");
             if (user.getName().toLowerCase().contains(querry.toLowerCase())) {
-                Log.d("search", user.getName() + ", querry: " + querry);
                 searchResult.add(user);
+            }
+        }
+        for (User user : users) {
+            for (Contract contract : user.getOwnershipContracts()) {
+                if(contract.getBerth().toLowerCase().contains(querry.toLowerCase())){
+                    searchResult.add(user);
+                }
+            }
+            for (Contract contract : user.getTenancyContracts()) {
+                if(contract.getBerth().toLowerCase().contains(querry.toLowerCase())){
+                    searchResult.add(user);
+                }
             }
         }
 
@@ -279,7 +295,7 @@ public class SearchModel {
 
                 //Add the user to the list along with the contracts and tickets
             } else if (eventType == XmlPullParser.END_TAG && parser.getName().equalsIgnoreCase("item")) {
-                users.add(new User(id, name, phoneNumber, member, email, city, personalIdentityNumber, cellphoneNumber, (ArrayList)tempTenancyContracts.clone(), (ArrayList)tempOwnershipContracts.clone(), (ArrayList)tempTickets.clone()));
+                users.add(new User(id, name, phoneNumber, member, email, city, personalIdentityNumber, cellphoneNumber, (ArrayList) tempTenancyContracts.clone(), (ArrayList) tempOwnershipContracts.clone(), (ArrayList) tempTickets.clone()));
                 tempOwnershipContracts.clear();
                 tempTenancyContracts.clear();
                 tempTickets.clear();
@@ -292,8 +308,8 @@ public class SearchModel {
                 } else if (tempTenancy) {
                     tempTenancyContracts.add(new Contract(tempContractId, tempContractType, tempBerthID, tempBerth, tempUserId, tempFree, tempVacant));
                 }
-                tempOwnership= false;
-                tempTenancy= false;
+                tempOwnership = false;
+                tempTenancy = false;
             } else if (eventType == XmlPullParser.END_TAG && parser.getName().equalsIgnoreCase("tickets")) {
                 parsingTicket = false;
                 tempTickets.add(new Ticket(tempTicketId, tempQueue, tempPlace, tempStart, tempWish, tempUserID, tempOwnership, tempTenancy));
@@ -316,6 +332,7 @@ public class SearchModel {
             }
         });
         loadingDialog.dismiss();
+        notifyListeners("Loading done", "not done", "done");
 
         //Log.d("portlux", "done loading");
     }
@@ -408,5 +425,16 @@ public class SearchModel {
             eventType = parser.next();
         }
     }
+
+    private void notifyListeners(String property, String oldValue, String newValue) {
+        for (PropertyChangeListener name : listener) {
+            name.propertyChange(new PropertyChangeEvent(this, property, oldValue, newValue));
+        }
+    }
+
+    public void addChangeListener(PropertyChangeListener newListener) {
+        listener.add(newListener);
+    }
+
 }
 

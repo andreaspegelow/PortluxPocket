@@ -23,4 +23,5 @@
     <string name="OwnershipTitle">Nyttjanderätt</string>
     <string name="rowQueue">4+</string>
     <string name="QueueTitle">Kö</string>
+    <string name="switchView">Byt till Båt</string>
 </resources>
