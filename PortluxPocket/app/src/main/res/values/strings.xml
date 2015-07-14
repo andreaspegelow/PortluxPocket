@@ -19,6 +19,8 @@
     <string name="setMember">Nej</string>
     <string name="rowBerthsOwnership">A2, B43, ...</string>
     <string name="rowBerthsTenacy">A43, K7, ...</string>
-    <string name="TenancyTitle">Hyresrätter</string>
-    <string name="OwnershipTitle">Nyttjanderätter</string>
+    <string name="TenancyTitle">Hyresrätt</string>
+    <string name="OwnershipTitle">Nyttjanderätt</string>
+    <string name="rowQueue">4+</string>
+    <string name="QueueTitle">Kö</string>
 </resources>

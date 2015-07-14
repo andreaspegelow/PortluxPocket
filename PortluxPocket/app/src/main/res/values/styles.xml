@@ -3,6 +3,12 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
+        <item name="colorControlNormal">@color/editTextColor</item>
+        <item name="colorControlActivated">@color/editTextColor</item>
+        <item name="colorControlHighlight">@color/editTextColor</item>
     </style>
+
+
+
 
 </resources>

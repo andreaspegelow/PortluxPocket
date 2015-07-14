@@ -52,6 +52,7 @@ public class SearchListAdapter extends BaseAdapter {
             holder.textViewName = (TextView) convertView.findViewById(R.id.rowName);
             holder.textViewTenancy = (TextView) convertView.findViewById(R.id.rowBerthsTenancy);
             holder.textViewOwnership = (TextView) convertView.findViewById(R.id.rowBerthsOwnership);
+            holder.textViewQueue = (TextView) convertView.findViewById(R.id.rowQueue);
 
             // hang onto this holder for future recyclage
             convertView.setTag(holder);
@@ -77,20 +78,30 @@ public class SearchListAdapter extends BaseAdapter {
 
 
         //Create the strings contracts to display.
-        for(Contract contract: oContracts ){
-
+        for (Contract contract : oContracts) {
             ownershipContracts += contract.getBerth() + ", ";
-        }for(Contract contract: tContracts ){
-            tenancyContracts += contract.getBerth() + ", ";
-
-
         }
+        for (Contract contract : tContracts) {
+            tenancyContracts += contract.getBerth() + ", ";
+        }
+
+        //remove the last ","
+        if (ownershipContracts.length() > 0) {
+            ownershipContracts = ownershipContracts.substring(0, ownershipContracts.length() - 2);
+        }
+        if (tenancyContracts.length() > 0) {
+            tenancyContracts = tenancyContracts.substring(0, tenancyContracts.length() - 2);
+        }
+
 
         //set the contract strings
         holder.textViewOwnership.setText(ownershipContracts);
         holder.textViewTenancy.setText(tenancyContracts);
 
-
+        //Set queue
+        for (Ticket ticket : user.getTickets()) {
+            holder.textViewQueue.setText(ticket.getQueue());
+        }
 
 
         return convertView;
@@ -100,9 +111,11 @@ public class SearchListAdapter extends BaseAdapter {
         public TextView textViewName;
         public TextView textViewTenancy;
         public TextView textViewOwnership;
+        public TextView textViewQueue;
 
     }
-    public void updateData(ArrayList<User> data){
+
+    public void updateData(ArrayList<User> data) {
         this.data = data;
         notifyDataSetChanged();
     }
