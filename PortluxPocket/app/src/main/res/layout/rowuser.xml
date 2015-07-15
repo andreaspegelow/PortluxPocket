@@ -13,7 +13,7 @@
         android:textColor="#333333"
         android:textSize="14sp"
         android:singleLine="true"
-        android:layout_weight="6"/>
+        android:layout_weight="5"/>
 
     <TextView
         android:id="@+id/rowBerthsOwnership"

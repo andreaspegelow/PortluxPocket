@@ -50,31 +50,37 @@ public class SearchModel {
 
     }
 
-    public ArrayList<User> search(String querry) {
+    /**
+     * searches for user that has the name or berth that that contains the querry
+     * sortMode determine if the list should be sorted based on the name or berth
+     * 0 = name
+     * 1 = berth
+     *
+     * @param querry
+     * @param sortMode sets the mode
+     * @return
+     */
+    public ArrayList<User> search(String querry, final boolean sortMode) {
         ArrayList<User> searchResult = new ArrayList<User>();
-
         for (User user : users) {
-            Log.d("search", "loop");
             if (user.getName().toLowerCase().contains(querry.toLowerCase())) {
                 searchResult.add(user);
             }
         }
         for (User user : users) {
             for (Contract contract : user.getOwnershipContracts()) {
-                if(contract.getBerth().toLowerCase().contains(querry.toLowerCase())){
+                if (contract.getBerth().toLowerCase().contains(querry.toLowerCase())) {
                     searchResult.add(user);
                 }
             }
             for (Contract contract : user.getTenancyContracts()) {
-                if(contract.getBerth().toLowerCase().contains(querry.toLowerCase())){
+                if (contract.getBerth().toLowerCase().contains(querry.toLowerCase())) {
                     searchResult.add(user);
                 }
             }
         }
 
-
-
-        //Sorting depending on wich mode you are in (not done yet)
+        //sort by name
         Collections.sort(searchResult, new Comparator<User>() {
             @Override
             public int compare(User user1, User user2) {
@@ -83,12 +89,13 @@ public class SearchModel {
             }
         });
 
+
         return searchResult;
     }
 
     private void getDataFromDatabase() {
         callUsers();
-        // callBerths();
+        callBerths();
     }
 
     private void callBerths() {
@@ -381,10 +388,10 @@ public class SearchModel {
 
 
         //Define temp variables to create a berth from
-        String tempId;
-        String tempPier;
-        String tempName;
-        String tempHarbour;
+        String tempId="";
+        String tempPier="";
+        String tempName="";
+        String tempHarbour="";
         Contract tempAccessRight;
         Contract tempTenancy;
 
@@ -405,36 +412,26 @@ public class SearchModel {
             //Basic info
             if (eventType == XmlPullParser.START_TAG) {
                 if (parser.getName().equalsIgnoreCase("id")) {
-                    Log.d("Parser id", parser.nextText().toString());
+                    tempId = parser.nextText().toString();
                 } else if (parser.getName().equalsIgnoreCase("pier")) {
-                    Log.d("Parser id", parser.nextText().toString());
-
-
-                    //contract one
+                    tempPier = parser.nextText().toString();
+                } else if (parser.getName().equalsIgnoreCase("harbour")) {
+                    tempHarbour = parser.nextText().toString();
+                } else if (parser.getName().equalsIgnoreCase("name")) {
+                    tempName = parser.nextText().toString();
                 } else if (parser.getName().equalsIgnoreCase("contracts")) {
-                    eventType = parser.next();
-
-                    while (eventType == XmlPullParser.START_TAG && !parser.getName().equalsIgnoreCase("contracts")) {
-
-                        if (eventType == XmlPullParser.START_TAG) {
-                            if (parser.getName().equalsIgnoreCase("id")) {
-                                Log.d("Parser contract", parser.nextText().toString());
-                            } else if (parser.getName().equalsIgnoreCase("Type")) {
-                                Log.d("Parser contract", parser.nextText().toString());
-
-
-                            }
-                        }
-                        eventType = parser.next();
-
-
-                    }
+                    skip(parser);
                 }
             }
+            else if(eventType == XmlPullParser.END_TAG && parser.getName().equalsIgnoreCase("item")){
+                berths.add(new Berth(tempId,tempPier,tempHarbour,tempName,null,null));
 
-            // Log.d("Parser", "new item");
+
+            }
             eventType = parser.next();
         }
+
+
     }
 
     private void notifyListeners(String property, String oldValue, String newValue) {

@@ -42,7 +42,7 @@ public class Berth {
      * @returns the Berth which is a concatenation of the Pier and the name
      */
     public String getBerth() {
-        return pier;
+        return pier+name;
     }
 
 }

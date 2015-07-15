@@ -22,7 +22,7 @@ import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 
 
-public class SearchActivity extends Activity implements TextWatcher, AdapterView.OnItemClickListener, CompoundButton.OnCheckedChangeListener, PropertyChangeListener{
+public class SearchActivity extends Activity implements TextWatcher, AdapterView.OnItemClickListener, CompoundButton.OnCheckedChangeListener, PropertyChangeListener {
     EditText searchField;
     ListView listView;
     SearchListAdapter listAdapter;
@@ -32,6 +32,8 @@ public class SearchActivity extends Activity implements TextWatcher, AdapterView
     Switch switchButton;
     ArrayList<User> searchResult = new ArrayList<User>();
     ArrayList search = new ArrayList();
+
+    private boolean searchMode = false;
 
 
     @Override
@@ -51,9 +53,7 @@ public class SearchActivity extends Activity implements TextWatcher, AdapterView
 
         switchButton = (Switch) findViewById(R.id.switchSearchView);
         switchButton.setOnCheckedChangeListener(this);
-        search.add("s");
-        search.add("e");
-        search.add("t");
+
 
         adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, search);
 
@@ -61,7 +61,6 @@ public class SearchActivity extends Activity implements TextWatcher, AdapterView
         //Create the model
         model = new SearchModel(this);
         model.addChangeListener(this);
-
 
 
     }
@@ -99,7 +98,7 @@ public class SearchActivity extends Activity implements TextWatcher, AdapterView
 
     @Override
     public void afterTextChanged(Editable s) {
-        searchResult = model.search(searchField.getText().toString());
+        searchResult = model.search(searchField.getText().toString(), searchMode);
         listAdapter.updateData(searchResult);
     }
 
@@ -126,23 +125,30 @@ public class SearchActivity extends Activity implements TextWatcher, AdapterView
         if (isChecked) {
             switchButton.setText("Byt till User");
             listView.setAdapter(adapter);
+            searchMode = true;
 
         } else {
             switchButton.setText("Byt till Båt");
             listView.setAdapter(listAdapter);
+            searchMode = false;
         }
 
     }
 
     @Override
     public void propertyChange(PropertyChangeEvent event) {
-        if(event.getNewValue().equals("done")){
+        if (event.getNewValue().equals("done")) {
             //do an empty search and fill the list
-            searchResult = model.search("");
+            searchResult = model.search("", searchMode);
             listAdapter.updateData(searchResult);
+            adapter.clear();
+            for (Berth berth : model.berths) {
+                search.add(berth.getBerth());
+                Log.d("add","add");
+            }
+            adapter.notifyDataSetChanged();
+            Log.d("add", "add done");
         }
-
-
 
 
     }
