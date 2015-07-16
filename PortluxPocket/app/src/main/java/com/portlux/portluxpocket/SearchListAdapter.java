@@ -1,5 +1,6 @@
 package com.portlux.portluxpocket;
 
+import android.text.method.TimeKeyListener;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,27 +15,34 @@ import java.util.ArrayList;
  */
 public class SearchListAdapter extends BaseAdapter {
     private LayoutInflater inflater;
-    private ArrayList<User> data;
+    private ArrayList<User> users;
+    private ArrayList<Contract> contracts;
+    private ArrayList<Ticket> tickets;
 
-    public SearchListAdapter(LayoutInflater inflater) {
+    public SearchListAdapter(LayoutInflater inflater ) {
 
         this.inflater = inflater;
-        data = new ArrayList<User>();
+        users = new ArrayList<User>();
+
+    }
+    public void setInitData(ArrayList<Contract> contracts, ArrayList<Ticket> tickets){
+        this.contracts =contracts;
+        this.tickets = tickets;
     }
 
     @Override
     public int getCount() {
-        return data.size();
+        return users.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return data.get(position);
+        return users.get(position);
     }
 
     @Override
     public long getItemId(int position) {
-        return Long.parseLong(data.get(position).getId());
+        return Long.parseLong(users.get(position).getId());
     }
 
     @Override
@@ -59,7 +67,6 @@ public class SearchListAdapter extends BaseAdapter {
         } else {
 
             // skip all the expensive steps
-            // and just get the holder you already made
             holder = (ViewHolder) convertView.getTag();
         }
 
@@ -71,19 +78,24 @@ public class SearchListAdapter extends BaseAdapter {
         String ownershipContracts = "";
         String tenancyContracts = "";
 
-
-        ArrayList<Contract> oContracts = user.getOwnershipContracts();
-
-        ArrayList<Contract> tContracts = user.getTenancyContracts();
-
-
         //Create the strings contracts to display.
-        for (Contract contract : oContracts) {
-            ownershipContracts += contract.getBerth() + ", ";
+        for (String id : user.getOwnershipContracts()) {
+
+            for (Contract contract : contracts) {
+                if (id.equalsIgnoreCase(contract.getId())) {
+                    ownershipContracts += contract.getBerth() + ", ";
+
+                }
+            }
         }
-        for (Contract contract : tContracts) {
-            tenancyContracts += contract.getBerth() + ", ";
+        for (String id : user.getTenancyContracts()) {
+            for (Contract contract : contracts) {
+                if (id.equalsIgnoreCase(contract.getId())) {
+                    tenancyContracts += contract.getBerth() + ", ";
+                }
+            }
         }
+
 
         //remove the last ","
         if (ownershipContracts.length() > 0) {
@@ -98,10 +110,23 @@ public class SearchListAdapter extends BaseAdapter {
         holder.textViewOwnership.setText(ownershipContracts);
         holder.textViewTenancy.setText(tenancyContracts);
 
-        //Set queue
-        for (Ticket ticket : user.getTickets()) {
-            holder.textViewQueue.setText(ticket.getQueue());
+
+        String queues = "";
+
+        //Set queue string
+        for (String id : user.getTickets()) {
+            for (Ticket ticket : tickets) {
+                if (id.equalsIgnoreCase(ticket.getId())) {
+                    queues += ticket.getQueue() + ", ";
+                }
+            }
         }
+        //remove the lats ", "
+        if (queues.length() > 0) {
+            queues = queues.substring(0, queues.length() - 2);
+        }
+
+        holder.textViewQueue.setText(queues);
 
 
         return convertView;
@@ -115,8 +140,8 @@ public class SearchListAdapter extends BaseAdapter {
 
     }
 
-    public void updateData(ArrayList<User> data) {
-        this.data = data;
+    public void updateData(ArrayList<User> users) {
+        this.users = users;
         notifyDataSetChanged();
     }
 }

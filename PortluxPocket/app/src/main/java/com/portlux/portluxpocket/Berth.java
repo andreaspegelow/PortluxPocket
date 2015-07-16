@@ -8,17 +8,16 @@ public class Berth {
     private final String pier;
     private final String name;
     private final String harbour;
-    private final Contract accessRight;
-    private final Contract tenancy;
+    private final String ownership;
+    private final String tenancy;
 
-    public Berth(String ID, String pier, String harbour, String name, Contract ownership, Contract tenancy ){
+    public Berth(String ID, String pier, String harbour, String name, String ownershipID, String tenancyID ){
         id = ID;
-
         this.pier = pier;
         this.name = name;
         this.harbour = harbour;
-        this.accessRight = ownership;
-        this.tenancy = tenancy;
+        this.ownership = ownershipID;
+        this.tenancy = tenancyID;
     }
 
     public String getHarbour() {
@@ -45,4 +44,11 @@ public class Berth {
         return pier+name;
     }
 
+    public String getOwnership() {
+        return ownership;
+    }
+
+    public String getTenancy() {
+        return tenancy;
+    }
 }

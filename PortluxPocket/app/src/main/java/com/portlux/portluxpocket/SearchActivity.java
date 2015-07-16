@@ -27,6 +27,8 @@ public class SearchActivity extends Activity implements TextWatcher, AdapterView
     ListView listView;
     SearchListAdapter listAdapter;
     ArrayAdapter adapter;
+    private boolean userDone = false;
+    private boolean berthDone = false;
 
     SearchModel model;
     Switch switchButton;
@@ -137,17 +139,27 @@ public class SearchActivity extends Activity implements TextWatcher, AdapterView
 
     @Override
     public void propertyChange(PropertyChangeEvent event) {
-        if (event.getNewValue().equals("done")) {
+        if (event.getNewValue().equals("Berth loading done")) {
+            berthDone = true;
+            Log.d("debug", "berths done");
+        }
+        else if (event.getNewValue().equals("Users loading done")) {
+            userDone = true;
+            Log.d("debug","users done");
+        }
+
+
+        if (userDone && berthDone) {
+            listAdapter.setInitData(model.getContracts(), model.getTickets());
             //do an empty search and fill the list
             searchResult = model.search("", searchMode);
             listAdapter.updateData(searchResult);
             adapter.clear();
-            for (Berth berth : model.berths) {
+            for (Berth berth : model.getBerths()) {
                 search.add(berth.getBerth());
-                Log.d("add","add");
             }
             adapter.notifyDataSetChanged();
-            Log.d("add", "add done");
+
         }
 
 
