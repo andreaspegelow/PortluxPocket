@@ -1,62 +1,98 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    android:orientation="vertical"
     android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingEnd="10dp"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingStart="10dp"
+    android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.portlux.portluxpocket.DetailedViewActivity">
 
-    <TextView android:text="@string/name"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/tvName"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="20dp"
-        android:textSize="20sp"
-        />
+        android:orientation="vertical"
+        android:background="#ff8400"
+        android:padding="10dp">
 
-    <TextView android:text="@string/email"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/tvEmail"
-        android:layout_below="@+id/tvCellphone"
-        android:layout_alignLeft="@+id/tvCellphone"
-        android:layout_marginTop="10dp"
+        <TextView
+            android:id="@+id/tvName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/name"
+            android:textColor="#000000"
+            android:textSize="20sp" />
 
-         />
-    <TextView android:text="@string/member"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/tvMember"
-        android:layout_toRightOf="@+id/tvName"
-        android:layout_marginLeft="30dp"
-        android:layout_alignBottom="@+id/tvPersonalNumber"
-        />
-    <TextView android:text="@string/setMember"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/tvSetMember"
-        android:layout_toRightOf="@+id/tvMember"
-        android:layout_marginLeft="10dp"
-        android:layout_alignBottom="@+id/tvMember"
-        />
+        <TextView
+            android:id="@+id/tvPersonalNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/tvName"
+            android:layout_below="@+id/tvName"
+            android:layout_marginTop="10dp"
+            android:text="@string/peronalNumber" />
 
-    <TextView android:text="@string/cellphone"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/tvCellphone"
-        android:layout_below="@+id/tvPersonalNumber"
-        android:layout_alignLeft="@+id/tvPersonalNumber"
-        android:layout_marginTop="10dp"
-        />
+        <TextView
+            android:id="@+id/tvEmail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/tvCellphone"
+            android:layout_below="@+id/tvCellphone"
+            android:layout_marginTop="10dp"
+            android:text="@string/email"
 
-    <TextView android:text="@string/peronalNumber"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/tvPersonalNumber"
-        android:layout_below="@+id/tvName"
-        android:layout_alignLeft="@+id/tvName"
-        android:layout_marginTop="10dp"
-        />
+            />
 
-</RelativeLayout>
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp">
+
+            <TextView
+                android:id="@+id/tvMember"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/member"
+
+                />
+
+            <TextView
+                android:id="@+id/tvSetMember"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/tvMember"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@+id/tvMember"
+                android:text="@string/setMember" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/tvCellphone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/tvPersonalNumber"
+            android:layout_below="@+id/tvPersonalNumber"
+            android:layout_marginTop="10dp"
+            android:text="@string/cellphone" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <ListView
+            android:id="@+id/itemList"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+        </ListView>
+
+    </LinearLayout>
+
+</LinearLayout>

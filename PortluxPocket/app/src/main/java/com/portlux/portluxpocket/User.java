@@ -1,11 +1,12 @@
 package com.portlux.portluxpocket;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Created by Andreas Pegelow on 2015-06-18.
  */
-public class User {
+public class User implements Serializable {
 
     private final String id;
     private final String name;

@@ -113,9 +113,8 @@ public class SearchActivity extends Activity implements TextWatcher, AdapterView
         Intent intent = new Intent(this, DetailedViewActivity.class);
 
         //Put content
-        intent.putExtra("name", user.getName());
-        intent.putExtra("member", user.isMember());
-        intent.putExtra("phone", user.getCellphoneNumber());
+        intent.putExtra("id", user);
+
 
         // start the next Activity using your Intent
         startActivity(intent);
@@ -141,11 +140,10 @@ public class SearchActivity extends Activity implements TextWatcher, AdapterView
     public void propertyChange(PropertyChangeEvent event) {
         if (event.getNewValue().equals("Berth loading done")) {
             berthDone = true;
-            Log.d("debug", "berths done");
+
         }
         else if (event.getNewValue().equals("Users loading done")) {
             userDone = true;
-            Log.d("debug","users done");
         }
 
 
