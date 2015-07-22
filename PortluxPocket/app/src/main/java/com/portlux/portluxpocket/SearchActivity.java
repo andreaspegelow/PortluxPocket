@@ -5,10 +5,12 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -22,18 +24,20 @@ import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 
 
-public class SearchActivity extends Activity implements TextWatcher, AdapterView.OnItemClickListener, CompoundButton.OnCheckedChangeListener, PropertyChangeListener {
-    EditText searchField;
-    ListView listView;
-    SearchListAdapter listAdapter;
-    ArrayAdapter adapter;
+public class SearchActivity extends ActionBarActivity implements TextWatcher, AdapterView.OnItemClickListener, CompoundButton.OnCheckedChangeListener, PropertyChangeListener {
+    private EditText searchField;
+    private ListView listView;
+    private SearchListAdapter listAdapter;
+    private ArrayAdapter adapter;
     private boolean userDone = false;
     private boolean berthDone = false;
 
-    SearchModel model;
-    Switch switchButton;
-    ArrayList<User> searchResult = new ArrayList<User>();
-    ArrayList search = new ArrayList();
+    private SearchModel model;
+    private Switch switchButton;
+    private ArrayList<User> searchResult = new ArrayList<User>();
+    private ArrayList search = new ArrayList();
+
+    private Toolbar toolbar;
 
     private boolean searchMode = false;
 
@@ -45,7 +49,14 @@ public class SearchActivity extends Activity implements TextWatcher, AdapterView
         Intent intent = new Intent(this, SplashScreenActivity.class);
         startActivity(intent);
 
+        //Create the model
+        model = new SearchModel(this);
+        model.addChangeListener(this);
 
+        //UI connection
+        toolbar = (Toolbar)findViewById(R.id.tool_bar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
         searchField = (EditText) findViewById(R.id.searchField);
         searchField.addTextChangedListener(this);
         listView = (ListView) findViewById(R.id.list);
@@ -60,12 +71,25 @@ public class SearchActivity extends Activity implements TextWatcher, AdapterView
         adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, search);
 
 
-        //Create the model
-        model = new SearchModel(this);
-        model.addChangeListener(this);
+
 
 
     }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
 
     @Override
     public void onPause() {
