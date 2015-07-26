@@ -2,6 +2,7 @@
 <resources>
     <color name="searchTitles">#005f99</color>
     <color name="editTextColor">#d6d6d6</color>
-    <color name="ColorPrimary">#FF5722</color>
-    <color name="ColorPrimaryDark">#E64A19</color>
+    <color name="ColorPrimary">#005f99</color>
+    <color name="ColorPrimaryDark">#014c7a</color>
+    <color name="tabsScrollColor">#c0f4ff</color>
 </resources>

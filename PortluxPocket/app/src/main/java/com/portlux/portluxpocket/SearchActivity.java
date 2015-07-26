@@ -1,9 +1,9 @@
 package com.portlux.portluxpocket;
 
-import android.app.Activity;
-import android.app.ProgressDialog;
+
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -24,22 +24,28 @@ import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 
 
-public class SearchActivity extends ActionBarActivity implements TextWatcher, AdapterView.OnItemClickListener, CompoundButton.OnCheckedChangeListener, PropertyChangeListener {
+public class SearchActivity extends ActionBarActivity implements TextWatcher, AdapterView.OnItemClickListener, PropertyChangeListener {
     private EditText searchField;
-    private ListView listView;
-    private SearchListAdapter listAdapter;
+
+
     private ArrayAdapter adapter;
     private boolean userDone = false;
     private boolean berthDone = false;
 
     private SearchModel model;
-    private Switch switchButton;
     private ArrayList<User> searchResult = new ArrayList<User>();
     private ArrayList search = new ArrayList();
 
     private Toolbar toolbar;
 
     private boolean searchMode = false;
+
+    //tab
+    private ViewPager pager;
+    private ViewPagerAdapter tabsAdapter;
+    private SlidingTabLayout tabs;
+    private CharSequence Titles[] = {"Användare", "Båtplatser"};
+    private int Numboftabs = 2;
 
 
     @Override
@@ -54,27 +60,40 @@ public class SearchActivity extends ActionBarActivity implements TextWatcher, Ad
         model.addChangeListener(this);
 
         //UI connection
-        toolbar = (Toolbar)findViewById(R.id.tool_bar);
+        toolbar = (Toolbar) findViewById(R.id.tool_bar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         searchField = (EditText) findViewById(R.id.searchField);
         searchField.addTextChangedListener(this);
-        listView = (ListView) findViewById(R.id.list);
-        listView.setOnItemClickListener(this);
-        listAdapter = new SearchListAdapter(getLayoutInflater());
-        listView.setAdapter(listAdapter);
-
-        switchButton = (Switch) findViewById(R.id.switchSearchView);
-        switchButton.setOnCheckedChangeListener(this);
 
 
         adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, search);
 
 
+        tabsAdapter = new ViewPagerAdapter(getSupportFragmentManager(), Titles, Numboftabs);
+
+        // Assigning ViewPager View and setting the adapter
+        pager = (ViewPager) findViewById(R.id.pager);
+        pager.setAdapter(tabsAdapter);
+
+        // Assiging the Sliding Tab Layout View
+        tabs = (SlidingTabLayout) findViewById(R.id.tabs);
+        tabs.setDistributeEvenly(true); // To make the Tabs Fixed set this true, This makes the tabs Space Evenly in Available width
+
+        // Setting Custom Color for the Scroll bar indicator of the Tab View
+        tabs.setCustomTabColorizer(new SlidingTabLayout.TabColorizer() {
+            @Override
+            public int getIndicatorColor(int position) {
+                return getResources().getColor(R.color.tabsScrollColor);
+            }
+        });
+
+        tabs.setViewPager(pager);
 
 
 
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -125,7 +144,7 @@ public class SearchActivity extends ActionBarActivity implements TextWatcher, Ad
     @Override
     public void afterTextChanged(Editable s) {
         searchResult = model.search(searchField.getText().toString(), searchMode);
-        listAdapter.updateData(searchResult);
+        tabsAdapter.updateData(searchResult);
     }
 
 
@@ -146,42 +165,20 @@ public class SearchActivity extends ActionBarActivity implements TextWatcher, Ad
     }
 
     @Override
-    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        if (isChecked) {
-            switchButton.setText("Byt till User");
-            listView.setAdapter(adapter);
-            searchMode = true;
-
-        } else {
-            switchButton.setText("Byt till Båt");
-            listView.setAdapter(listAdapter);
-            searchMode = false;
-        }
-
-    }
-
-    @Override
     public void propertyChange(PropertyChangeEvent event) {
         if (event.getNewValue().equals("Berth loading done")) {
             berthDone = true;
 
-        }
-        else if (event.getNewValue().equals("Users loading done")) {
+        } else if (event.getNewValue().equals("Users loading done")) {
             userDone = true;
         }
 
 
-        if (userDone && berthDone) {
-            listAdapter.setInitData(model.getContracts(), model.getTickets());
+       if (userDone && berthDone) {
+           tabsAdapter.setInitData(this, model.getContracts(), model.getTickets());
             //do an empty search and fill the list
             searchResult = model.search("", searchMode);
-            listAdapter.updateData(searchResult);
-            adapter.clear();
-            for (Berth berth : model.getBerths()) {
-                search.add(berth.getBerth());
-            }
-            adapter.notifyDataSetChanged();
-
+            tabsAdapter.updateData(searchResult);
         }
 
 
