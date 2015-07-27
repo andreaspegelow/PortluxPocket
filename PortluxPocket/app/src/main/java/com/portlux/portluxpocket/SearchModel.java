@@ -59,27 +59,38 @@ public class SearchModel {
      * 1 = berth
      *
      * @param querry
-     * @param sortMode sets the mode
      * @return
      */
-    public ArrayList<User> search(String querry, final boolean sortMode) {
+    public ArrayList<User> searchForUser(String querry) {
         ArrayList<User> searchResult = new ArrayList<User>();
         for (User user : users) {
-            if (user.getName().toLowerCase().contains(querry.toLowerCase())) {
+            String name = user.getFirstName() +" "+ user.getLastName();
+            if (name.toLowerCase().contains(querry.toLowerCase())) {
                 searchResult.add(user);
             }
-        }
 
+        }
 
         //sort by name
         Collections.sort(searchResult, new Comparator<User>() {
             @Override
             public int compare(User user1, User user2) {
 
-                return user1.getName().compareTo(user2.getName());
+                return user1.getFirstName().compareTo(user2.getFirstName());
             }
         });
 
+
+        return searchResult;
+    }
+    public ArrayList<Berth> searchForBerth(String querry){
+        ArrayList<Berth> searchResult = new ArrayList<Berth>();
+
+        for (Berth berth : berths) {
+            if (berth.getBerth().toLowerCase().contains(querry.toLowerCase())) {
+                searchResult.add(berth);
+            }
+        }
 
         return searchResult;
     }
@@ -171,7 +182,8 @@ public class SearchModel {
         boolean realTicket = false;
 
         String id = "";
-        String name = "";
+        String firstName = "";
+        String lastName = "";
         String phoneNumber = "";
         boolean member = false;
         String email = "";
@@ -219,8 +231,10 @@ public class SearchModel {
 
                 if (parser.getName().equalsIgnoreCase("id")) {
                     id = parser.nextText();
-                } else if (parser.getName().equalsIgnoreCase("name")) {
-                    name = parser.nextText();
+                } else if (parser.getName().equalsIgnoreCase("firstName")) {
+                    firstName = parser.nextText();
+                } else if (parser.getName().equalsIgnoreCase("lastName")) {
+                    lastName = parser.nextText();
                 } else if (parser.getName().equalsIgnoreCase("phone")) {
                     phoneNumber = parser.nextText();
                 } else if (parser.getName().equalsIgnoreCase("member")) {
@@ -241,16 +255,16 @@ public class SearchModel {
                 } else if (parser.getName().equalsIgnoreCase("createtime")) {
                     skip(parser);
                 } else if (parser.getName().equalsIgnoreCase("contracts")) {
-                    if(!parser.isEmptyElementTag()){
+                    if (!parser.isEmptyElementTag()) {
                         parsingContract = true;
-                    }else{
+                    } else {
                         skip(parser);
                     }
 
                 } else if (parser.getName().equalsIgnoreCase("tickets")) {
-                    if(!parser.isEmptyElementTag()){
+                    if (!parser.isEmptyElementTag()) {
                         parsingTicket = true;
-                    }else{
+                    } else {
                         skip(parser);
                     }
                 }
@@ -315,14 +329,14 @@ public class SearchModel {
 
                 //Add the user to the list along with the contracts and tickets
             } else if (eventType == XmlPullParser.END_TAG && parser.getName().equalsIgnoreCase("item")) {
-                users.add(new User(id, name, phoneNumber, member, email, city, personalIdentityNumber, cellphoneNumber, (ArrayList) tempTenancyContracts.clone(), (ArrayList) tempOwnershipContracts.clone(), (ArrayList) tempTickets.clone()));
+                users.add(new User(id, firstName,lastName, phoneNumber, member, email, city, personalIdentityNumber, cellphoneNumber, (ArrayList) tempTenancyContracts.clone(), (ArrayList) tempOwnershipContracts.clone(), (ArrayList) tempTickets.clone()));
                 tempOwnershipContracts.clear();
                 tempTenancyContracts.clear();
                 tempTickets.clear();
 
 
                 //Add the current contract to the correct contract list.
-            } else if (eventType == XmlPullParser.END_TAG && parser.getName().equalsIgnoreCase("contracts") ) {
+            } else if (eventType == XmlPullParser.END_TAG && parser.getName().equalsIgnoreCase("contracts")) {
 
                 if (tempOwnership) {
                     tempOwnershipContracts.add(tempContractId);
@@ -338,7 +352,7 @@ public class SearchModel {
                 parsingContract = false;
 
                 //Add the ticket
-            } else if (eventType == XmlPullParser.END_TAG && parser.getName().equalsIgnoreCase("tickets")  ) {
+            } else if (eventType == XmlPullParser.END_TAG && parser.getName().equalsIgnoreCase("tickets")) {
 
                 tempTickets.add(tempTicketId);
                 tickets.add(new Ticket(tempTicketId, tempQueue, tempPlace, tempStart, tempWish, tempUserID, tempOwnership, tempTenancy));
@@ -359,12 +373,12 @@ public class SearchModel {
             @Override
             public int compare(User user1, User user2) {
 
-                return user1.getName().compareTo(user2.getName());
+                return user1.getFirstName().compareTo(user2.getFirstName());
             }
         });
         loadingDialog.dismiss();
         notifyListeners("Users loading done", "not done", "Users loading done");
-      
+
 
     }
 
@@ -422,7 +436,7 @@ public class SearchModel {
         while (eventType != XmlPullParser.END_DOCUMENT) {
 
             //Basic info
-            if (eventType == XmlPullParser.START_TAG && !parsingContract ) {
+            if (eventType == XmlPullParser.START_TAG && !parsingContract) {
                 if (parser.getName().equalsIgnoreCase("id")) {
                     tempId = parser.nextText().toString();
                 } else if (parser.getName().equalsIgnoreCase("pier")) {
@@ -483,6 +497,9 @@ public class SearchModel {
         return tickets;
     }
 
+    public ArrayList<User> getUsers() {
+        return users;
+    }
     public ArrayList<Berth> getBerths() {
         return berths;
     }

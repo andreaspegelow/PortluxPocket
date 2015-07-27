@@ -9,7 +9,8 @@ import java.util.ArrayList;
 public class User implements Serializable {
 
     private final String id;
-    private final String name;
+    private final String firstName;
+    private final String lastName;
     private final String phoneNumber;
     private final boolean member;
     private final String email;
@@ -21,9 +22,10 @@ public class User implements Serializable {
     private final ArrayList<String> tickets;
 
 
-    public User(String ID, String name, String phoneNumber, boolean member, String email, String city,  String personalIdentityNumber, String cellphoneNumber, ArrayList<String> tenancyContracts, ArrayList<String> ownershipContracts,ArrayList<String> tickets ) {
+    public User(String ID, String firstName, String lastName, String phoneNumber, boolean member, String email, String city,  String personalIdentityNumber, String cellphoneNumber, ArrayList<String> tenancyContracts, ArrayList<String> ownershipContracts,ArrayList<String> tickets ) {
         this.id = ID;
-        this.name = name;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.phoneNumber = phoneNumber;
         this.member = member;
         this.email = email;
@@ -63,8 +65,8 @@ public class User implements Serializable {
         return phoneNumber;
     }
 
-    public String getName() {
-        return name;
+    public String getFirstName() {
+        return firstName;
     }
 
     public String getId() {
@@ -77,5 +79,9 @@ public class User implements Serializable {
 
     public ArrayList<String> getOwnershipContracts() {
         return ownershipContracts;
+    }
+
+    public String getLastName() {
+        return lastName;
     }
 }

@@ -1,7 +1,5 @@
 package com.portlux.portluxpocket;
 
-import android.text.method.TimeKeyListener;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,20 +11,22 @@ import java.util.ArrayList;
 /**
  * Created by Andreas Pegelow on 2015-07-08.
  */
-public class SearchListAdapter extends BaseAdapter {
+public class SearchUserAdapter extends BaseAdapter {
     private LayoutInflater inflater;
     private ArrayList<User> users;
     private ArrayList<Contract> contracts;
     private ArrayList<Ticket> tickets;
+    private boolean empty = false;
 
-    public SearchListAdapter(LayoutInflater inflater ) {
+    public SearchUserAdapter(LayoutInflater inflater) {
 
         this.inflater = inflater;
         users = new ArrayList<User>();
 
     }
-    public void setInitData(ArrayList<Contract> contracts, ArrayList<Ticket> tickets){
-        this.contracts =contracts;
+
+    public void setInitData(ArrayList<Contract> contracts, ArrayList<Ticket> tickets) {
+        this.contracts = contracts;
         this.tickets = tickets;
     }
 
@@ -48,6 +48,8 @@ public class SearchListAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
+
+
 
         // check if the view already exists
         if (convertView == null) {
@@ -73,7 +75,7 @@ public class SearchListAdapter extends BaseAdapter {
         User user = (User) getItem(position);
 
         //Set the name
-        holder.textViewName.setText(user.getName());
+        holder.textViewName.setText(user.getFirstName()+ " "+ user.getLastName());
 
         String ownershipContracts = "";
         String tenancyContracts = "";
@@ -137,6 +139,7 @@ public class SearchListAdapter extends BaseAdapter {
         public TextView textViewTenancy;
         public TextView textViewOwnership;
         public TextView textViewQueue;
+
 
     }
 

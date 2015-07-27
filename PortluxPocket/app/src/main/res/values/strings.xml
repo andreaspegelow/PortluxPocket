@@ -24,4 +24,12 @@
     <string name="rowQueue">4+</string>
     <string name="QueueTitle">Kö</string>
     <string name="switchView">Byt till Båt</string>
+    <string name="emptyResult">Din sökning matchade inte någon användare</string>
+    <string name="berth">Båtplats</string>
+    <string name="Power">El</string>
+    <string name="OwnerTitle">Platsägare</string>
+    <string name="TenancyTitleP">Platshyrare</string>
+    <string name="title_activity_detailed_berth_view">DetailedBerthViewActivity</string>
+
+    <string name="hello_world">Hello world!</string>
 </resources>

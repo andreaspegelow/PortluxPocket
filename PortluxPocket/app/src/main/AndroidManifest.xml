@@ -23,8 +23,12 @@
             android:label="@string/title_activity_splash_screen" >
         </activity>
         <activity
-            android:name=".DetailedViewActivity"
+            android:name=".DetailedUserViewActivity"
             android:label="@string/title_activity_detailed_view" >
+        </activity>
+        <activity
+            android:name=".DetailedBerthViewActivity"
+            android:label="@string/title_activity_detailed_berth_view" >
         </activity>
     </application>
 

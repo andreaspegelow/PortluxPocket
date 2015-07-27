@@ -11,20 +11,15 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.Switch;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 
 
-public class SearchActivity extends ActionBarActivity implements TextWatcher, AdapterView.OnItemClickListener, PropertyChangeListener {
+public class SearchActivity extends ActionBarActivity implements TextWatcher, PropertyChangeListener {
     private EditText searchField;
 
 
@@ -33,12 +28,11 @@ public class SearchActivity extends ActionBarActivity implements TextWatcher, Ad
     private boolean berthDone = false;
 
     private SearchModel model;
-    private ArrayList<User> searchResult = new ArrayList<User>();
+    private ArrayList<Berth> berthSearchResult = new ArrayList<Berth>();
+    private ArrayList<User> userSearchResult = new ArrayList<User>();
     private ArrayList search = new ArrayList();
 
     private Toolbar toolbar;
-
-    private boolean searchMode = false;
 
     //tab
     private ViewPager pager;
@@ -88,8 +82,8 @@ public class SearchActivity extends ActionBarActivity implements TextWatcher, Ad
             }
         });
 
-        tabs.setViewPager(pager);
 
+        tabs.setViewPager(pager);
 
 
     }
@@ -143,26 +137,24 @@ public class SearchActivity extends ActionBarActivity implements TextWatcher, Ad
 
     @Override
     public void afterTextChanged(Editable s) {
-        searchResult = model.search(searchField.getText().toString(), searchMode);
-        tabsAdapter.updateData(searchResult);
+        userSearchResult = model.searchForUser(searchField.getText().toString());
+        if (!userSearchResult.isEmpty()) {
+            tabsAdapter.setUserListFull();
+            tabsAdapter.updateUserData(userSearchResult);
+        } else {
+            tabsAdapter.setUserListEmpty();
+        }
+        berthSearchResult = model.searchForBerth(searchField.getText().toString());
+        if (!berthSearchResult.isEmpty()) {
+            tabsAdapter.setBerthListFull();
+            tabsAdapter.updateBerthData(berthSearchResult);
+        } else {
+            tabsAdapter.setBerthListEmpty();
+        }
     }
 
 
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        User user = searchResult.get(position);
 
-        // create an Intent to go to the detaildview
-        Intent intent = new Intent(this, DetailedViewActivity.class);
-
-        //Put content
-        intent.putExtra("id", user);
-
-
-        // start the next Activity using your Intent
-        startActivity(intent);
-
-    }
 
     @Override
     public void propertyChange(PropertyChangeEvent event) {
@@ -174,13 +166,17 @@ public class SearchActivity extends ActionBarActivity implements TextWatcher, Ad
         }
 
 
-       if (userDone && berthDone) {
-           tabsAdapter.setInitData(this, model.getContracts(), model.getTickets());
+        if (userDone && berthDone) {
+            tabsAdapter.setInitData(this, model.getContracts(), model.getTickets(), model.getUsers());
             //do an empty search and fill the list
-            searchResult = model.search("", searchMode);
-            tabsAdapter.updateData(searchResult);
+            userSearchResult = model.searchForUser("");
+            tabsAdapter.updateUserData(userSearchResult);
+            berthSearchResult = model.searchForBerth("");
+            tabsAdapter.updateBerthData(berthSearchResult);
         }
 
 
     }
+
+
 }

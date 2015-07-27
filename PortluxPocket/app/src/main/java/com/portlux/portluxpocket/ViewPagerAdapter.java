@@ -58,12 +58,38 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
     public int getCount() {
         return NumbOfTabs;
     }
-    public void updateData(ArrayList data){
+
+    public void updateUserData(ArrayList<User> data) {
         tab1.updateData(data);
 
     }
-    public void setInitData(Context context, ArrayList users, ArrayList tickets){
-        tab1.setInitData(context, users, tickets);
+
+    public void setInitData(Context context, ArrayList<Contract> contracts, ArrayList<Ticket> tickets,  ArrayList<User> users) {
+        tab1.setInitData(context,tickets, contracts);
+        tab2.setInitData(context,contracts,users);
+
+
+    }
+
+    public void setUserListEmpty() {
+        tab1.setListEmpty();
+    }
+
+    public void setUserListFull() {
+        tab1.setListFull();
+    }
+
+
+    public void updateBerthData(ArrayList<Berth> data) {
+        tab2.updateData(data);
+    }
+
+    public void setBerthListFull() {
+        tab2.setListFull();
+    }
+
+    public void setBerthListEmpty() {
+        tab2.setListEmpty();
 
     }
 }

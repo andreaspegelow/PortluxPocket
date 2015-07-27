@@ -1,6 +1,5 @@
 package com.portlux.portluxpocket;
 
-import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,7 +11,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
@@ -21,45 +19,66 @@ import java.util.ArrayList;
 public class Usertab extends android.support.v4.app.Fragment implements AdapterView.OnItemClickListener {
 
     private ListView listView;
-    private SearchListAdapter listAdapter;
+    private SearchUserAdapter listAdapter;
+    private ArrayAdapter emptylist;
     private ArrayList<User> data;
     private Context context;
+    private ArrayList msg = new ArrayList();
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v =inflater.inflate(R.layout.usertab,container,false);
+        View v = inflater.inflate(R.layout.usertab, container, false);
         listView = (ListView) v.findViewById(R.id.list);
         listView.setOnItemClickListener(this);
-        listAdapter = new SearchListAdapter(inflater);
-        listView.setAdapter(listAdapter);
+        msg.add("Inga resultat hittades");
 
+        listAdapter = new SearchUserAdapter(inflater);
+        listView.setAdapter(listAdapter);
         return v;
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        User user = data.get(position);
+        if (listView.getAdapter().equals(listAdapter)) {
+            User user = data.get(position);
 
-        // create an Intent to go to the detaildview
-        Intent intent = new Intent(context, DetailedViewActivity.class);
-
-
-        //Put content
-        intent.putExtra("id", user);
+            // create an Intent to go to the detaildview
+            Intent intent = new Intent(context, DetailedUserViewActivity.class);
 
 
-        // start the next Activity using your Intent
-        startActivity(intent);
+            //Put content
+            intent.putExtra("id", user);
+
+
+            // start the next Activity using your Intent
+            startActivity(intent);
+        }
 
     }
-    public void updateData(ArrayList data){
-        this.data= data;
+
+    public void updateData(ArrayList<User> data) {
+        this.data = data;
         listAdapter.updateData(data);
 
     }
-    public void setInitData(Context context, ArrayList users, ArrayList tickets){
+
+    public void setInitData(Context context, ArrayList<Ticket> tickets, ArrayList<Contract> contracts) {
         this.context = context;
-        data = users;
-        listAdapter.setInitData(users, tickets);
+
+        listAdapter.setInitData(contracts, tickets);
+        emptylist = new ArrayAdapter(context, android.R.layout.simple_list_item_1, msg);
+    }
+
+    /**
+     * Switches between an empty list and on filled with users
+     */
+    public void setListEmpty() {
+        listView.setAdapter(emptylist);
+
+    }
+
+    public void setListFull() {
+        listView.setAdapter(listAdapter);
+
     }
 }
