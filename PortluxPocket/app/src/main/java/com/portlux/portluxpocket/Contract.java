@@ -1,9 +1,14 @@
 package com.portlux.portluxpocket;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.io.Serializable;
+
 /**
  * Created by Andreas Pegelow on 2015-06-18.
  */
-public class Contract {
+public class Contract implements Serializable {
     private final String id;
     private final Contract.contractType contractType;
     private final String berthID;
@@ -58,6 +63,8 @@ public class Contract {
     public String getBerth() {
         return berth;
     }
+
+
 
     public enum contractType {OWNERSHIP, TENANCY}
 

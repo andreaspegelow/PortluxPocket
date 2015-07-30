@@ -22,6 +22,8 @@ public class Usertab extends android.support.v4.app.Fragment implements AdapterV
     private SearchUserAdapter listAdapter;
     private ArrayAdapter emptylist;
     private ArrayList<User> data;
+    private ArrayList<Contract> contracts;
+    private ArrayList<Ticket> tickets;
     private Context context;
     private ArrayList msg = new ArrayList();
 
@@ -48,6 +50,28 @@ public class Usertab extends android.support.v4.app.Fragment implements AdapterV
 
             //Put content
             intent.putExtra("id", user);
+            for (int i = 0; i < user.getOwnershipContracts().size(); i++) {
+                for(Contract contract: contracts){
+                    if(contract.getId().equalsIgnoreCase(user.getOwnershipContracts().get(i))){
+                        intent.putExtra("ownership"+(i+1),contract);
+                    }
+                }
+            }
+            for (int i = 0; i < user.getTenancyContracts().size(); i++) {
+                for(Contract contract: contracts){
+                    if(contract.getId().equalsIgnoreCase(user.getTenancyContracts().get(i))){
+                        intent.putExtra("tenacy"+(i+1),contract);
+                    }
+                }
+            }
+            for (int i = 0; i < user.getTickets().size(); i++) {
+                for(Ticket ticket: tickets){
+                    if(ticket.getId().equalsIgnoreCase(user.getTickets().get(i))){
+                        intent.putExtra("ticket"+(i+1),ticket);
+                    }
+                }
+            }
+
 
 
             // start the next Activity using your Intent
@@ -64,6 +88,8 @@ public class Usertab extends android.support.v4.app.Fragment implements AdapterV
 
     public void setInitData(Context context, ArrayList<Ticket> tickets, ArrayList<Contract> contracts) {
         this.context = context;
+        this.contracts = contracts;
+        this.tickets=tickets;
 
         listAdapter.setInitData(contracts, tickets);
         emptylist = new ArrayAdapter(context, android.R.layout.simple_list_item_1, msg);

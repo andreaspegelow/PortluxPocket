@@ -48,13 +48,8 @@ public class Berthtab extends android.support.v4.app.Fragment implements Adapter
 
             // create an Intent to go to the detaildview
             Intent intent = new Intent(context, DetailedBerthViewActivity.class);
-
-
-            //Put content
             intent.putExtra("id", berth);
 
-
-            // start the next Activity using your Intent
             startActivity(intent);
         }
 

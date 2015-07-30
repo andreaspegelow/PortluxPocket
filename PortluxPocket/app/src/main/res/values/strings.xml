@@ -19,10 +19,16 @@
     <string name="setMember">Nej</string>
     <string name="rowBerthsOwnership">A2, B43, ...</string>
     <string name="rowBerthsTenacy">A43, K7, ...</string>
+
     <string name="TenancyTitle">Hyresrätt</string>
+    <string name="TenancyTitlePlural">Hyresrätter</string>
     <string name="OwnershipTitle">Nyttjanderätt</string>
+    <string name="OwnershipTitlePlural">Nyttjanderätter</string>
+
     <string name="rowQueue">4+</string>
     <string name="QueueTitle">Kö</string>
+    <string name="QueueTitleLong">Köplats</string>
+    <string name="QueueTitleLongPlural">Köplatser</string>
     <string name="switchView">Byt till Båt</string>
     <string name="emptyResult">Din sökning matchade inte någon användare</string>
     <string name="berth">Båtplats</string>
@@ -32,4 +38,10 @@
     <string name="title_activity_detailed_berth_view">DetailedBerthViewActivity</string>
 
     <string name="hello_world">Hello world!</string>
+    <string name="Setfree">Hyr ut</string>
+    <string name="away">Ledighet</string>
+    <string name="place">Köplats:</string>
+    <string name="Standinline">Skapa ny köplats</string>
+    <string name="wish">Önskan:</string>
+
 </resources>

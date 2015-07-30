@@ -6,4 +6,7 @@
     <color name="ColorPrimaryDark">#014c7a</color>
     <color name="tabsScrollColor">#c0f4ff</color>
     <color name="OffWhite">#ccdfeb</color>
+    <color name="lightText">#808080</color>
+    <color name="red">#de4b4b</color>
+    <color name="green">#4bde4b</color>
 </resources>

@@ -1,11 +1,12 @@
 package com.portlux.portluxpocket;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Created by Andreas on 2015-06-29.
  */
-public class Ticket {
+public class Ticket implements Serializable {
     private final String id;
     private final String queue;
     private final String place;
