@@ -112,7 +112,10 @@
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:background="@drawable/titlebg"
-                        android:padding="10dp"
+                        android:paddingTop="7dp"
+                        android:paddingBottom="7dp"
+                        android:paddingRight="10dp"
+                        android:paddingLeft="10dp"
                         android:text="@string/OwnershipTitlePlural"
                         android:textColor="@color/OffWhite" />
 
@@ -137,7 +140,10 @@
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:background="@drawable/titlebg"
-                        android:padding="10dp"
+                        android:paddingTop="7dp"
+                        android:paddingBottom="7dp"
+                        android:paddingRight="10dp"
+                        android:paddingLeft="10dp"
                         android:text="@string/TenancyTitlePlural"
                         android:textColor="@color/OffWhite" />
 
@@ -162,7 +168,10 @@
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:background="@drawable/titlebg"
-                        android:padding="10dp"
+                        android:paddingTop="7dp"
+                        android:paddingBottom="7dp"
+                        android:paddingRight="10dp"
+                        android:paddingLeft="10dp"
                         android:text="@string/QueueTitleLong"
                         android:textColor="@color/OffWhite"
                         />
