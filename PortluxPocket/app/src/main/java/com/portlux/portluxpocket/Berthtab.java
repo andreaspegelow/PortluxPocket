@@ -41,14 +41,14 @@ public class Berthtab extends android.support.v4.app.Fragment implements Adapter
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Log.d("debug", "click");
+
         if (listView.getAdapter().equals(listAdapter)) {
-            Log.d("debug", "clickin");
+
             Berth berth = data.get(position);
 
             // create an Intent to go to the detaildview
             Intent intent = new Intent(context, DetailedBerthViewActivity.class);
-            intent.putExtra("id", berth);
+            intent.putExtra("berth", berth.getId());
 
             startActivity(intent);
         }

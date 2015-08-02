@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -96,7 +95,7 @@ public class SearchBerthAdapter extends BaseAdapter implements CompoundButton.On
         String tenacy = "";
 
         for (Contract contract : contracts) {
-            if (contract.getId().equalsIgnoreCase(berth.getOwnershipID())) {
+            if (contract.getId().equalsIgnoreCase(berth.getOwnershipContractId())) {
                 for (User user : users) {
                     if (user.getId().equalsIgnoreCase(contract.getUserId())) {
                         owner = user.getFirstName().substring(0, 1) + ". " + user.getLastName();
@@ -106,7 +105,7 @@ public class SearchBerthAdapter extends BaseAdapter implements CompoundButton.On
 
         }
         for (Contract contract : contracts) {
-            if (contract.getId().equalsIgnoreCase(berth.getTenancyID())) {
+            if (contract.getId().equalsIgnoreCase(berth.getTenancyContractId())) {
                 for (User user : users) {
                     if (user.getId().equalsIgnoreCase(contract.getUserId())) {
                         tenacy = user.getFirstName().substring(0, 1) + ". " + user.getLastName();

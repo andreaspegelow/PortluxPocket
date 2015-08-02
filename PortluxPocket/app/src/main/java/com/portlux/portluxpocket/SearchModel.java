@@ -64,7 +64,7 @@ public class SearchModel {
     public ArrayList<User> searchForUser(String querry) {
         ArrayList<User> searchResult = new ArrayList<User>();
         for (User user : users) {
-            String name = user.getFirstName() +" "+ user.getLastName();
+            String name = user.getFirstName() + " " + user.getLastName();
             if (name.toLowerCase().contains(querry.toLowerCase())) {
                 searchResult.add(user);
             }
@@ -83,7 +83,8 @@ public class SearchModel {
 
         return searchResult;
     }
-    public ArrayList<Berth> searchForBerth(String querry){
+
+    public ArrayList<Berth> searchForBerth(String querry) {
         ArrayList<Berth> searchResult = new ArrayList<Berth>();
 
         for (Berth berth : berths) {
@@ -329,7 +330,7 @@ public class SearchModel {
 
                 //Add the user to the list along with the contracts and tickets
             } else if (eventType == XmlPullParser.END_TAG && parser.getName().equalsIgnoreCase("item")) {
-                users.add(new User(id, firstName,lastName, phoneNumber, member, email, city, personalIdentityNumber, cellphoneNumber, (ArrayList) tempTenancyContracts.clone(), (ArrayList) tempOwnershipContracts.clone(), (ArrayList) tempTickets.clone()));
+                users.add(new User(id, firstName, lastName, phoneNumber, member, email, city, personalIdentityNumber, cellphoneNumber, (ArrayList) tempTenancyContracts.clone(), (ArrayList) tempOwnershipContracts.clone(), (ArrayList) tempTickets.clone()));
                 tempOwnershipContracts.clear();
                 tempTenancyContracts.clear();
                 tempTickets.clear();
@@ -376,8 +377,12 @@ public class SearchModel {
                 return user1.getFirstName().compareTo(user2.getFirstName());
             }
         });
+        //TODO: progressbar dismiss
         loadingDialog.dismiss();
         notifyListeners("Users loading done", "not done", "Users loading done");
+        Data.getInstance().setUsers(users);
+        Data.getInstance().setTickets(tickets);
+        Data.getInstance().setContracts(contracts);
 
 
     }
@@ -419,11 +424,15 @@ public class SearchModel {
         String tempPier = "";
         String tempName = "";
         String tempHarbour = "";
-        String tempOwnershipID = "";
-        String tempTenancyID = "";
+        String tempOwnershipContractId = "";
+        String tempTenancyContractId = "";
+        String tempOwnershipUserId = "";
+        String tempTenancyUserId = "";
+
 
         //Define temp variables to create a contract from
         String tempContractId = "";
+        String tempUserId = "";
         String contractType = "";
 
 
@@ -451,29 +460,36 @@ public class SearchModel {
             } else if (eventType == XmlPullParser.START_TAG && parsingContract) {
                 if (parser.getName().equalsIgnoreCase("id")) {
                     tempContractId = parser.nextText().toString();
+                } else if (parser.getName().equalsIgnoreCase("userid")) {
+                    tempUserId = parser.nextText().toString();
                 } else if (parser.getName().equalsIgnoreCase("type")) {
                     contractType = parser.nextText().toString();
                 }
 
 
             } else if (eventType == XmlPullParser.END_TAG && parser.getName().equalsIgnoreCase("item")) {
-                berths.add(new Berth(tempId, tempPier, tempHarbour, tempName, tempOwnershipID, tempTenancyID));
-                tempOwnershipID = null;
-                tempTenancyID = null;
+                berths.add(new Berth(tempId, tempPier, tempHarbour, tempName, tempOwnershipContractId, tempTenancyContractId, tempOwnershipUserId, tempTenancyUserId));
+                tempOwnershipContractId = null;
+                tempTenancyContractId = null;
+                tempOwnershipUserId = null;
+                tempTenancyUserId = null;
 
             } else if (eventType == XmlPullParser.END_TAG && parser.getName().equalsIgnoreCase("contracts")) {
                 parsingContract = false;
 
                 if (contractType.equalsIgnoreCase("Nyttjanderätt")) {
-                    tempOwnershipID = tempContractId;
+                    tempOwnershipContractId = tempContractId;
+                    tempOwnershipUserId = tempUserId;
                 } else {
-                    tempTenancyID = tempContractId;
+                    tempTenancyContractId = tempContractId;
+                    tempTenancyUserId = tempUserId;
                 }
 
 
             }
             eventType = parser.next();
         }
+        Data.getInstance().setBerths(berths);
         notifyListeners("Berth loading done", "not done", "Berth loading done");
 
     }
@@ -500,6 +516,7 @@ public class SearchModel {
     public ArrayList<User> getUsers() {
         return users;
     }
+
     public ArrayList<Berth> getBerths() {
         return berths;
     }

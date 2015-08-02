@@ -2,30 +2,23 @@ package com.portlux.portluxpocket;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.ViewManager;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
-import android.widget.ListAdapter;
-import android.widget.ListView;
 import android.widget.TextView;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
 
-public class DetailedUserViewActivity extends ActionBarActivity {
+public class DetailedUserViewActivity extends ActionBarActivity implements View.OnClickListener {
 
     ArrayAdapter adapter;
     ArrayList a;
@@ -41,6 +34,8 @@ public class DetailedUserViewActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detailed_user_view);
+
+        Data instance = Data.getInstance();
 
         //UI connection
         TextView textViewName = (TextView) findViewById(R.id.tvName);
@@ -61,16 +56,7 @@ public class DetailedUserViewActivity extends ActionBarActivity {
         TextView ownershipListTitle = (TextView) findViewById(R.id.OwnershipTitle);
         TextView ticketListTitle = (TextView) findViewById(R.id.ticketListTitle);
 
-        User user = (User) getIntent().getExtras().getSerializable("id");
-        for (int i = 0; i < MAX_PASSES; i++) {
-            ownershipContracts.add((Contract) getIntent().getExtras().getSerializable("ownership" + (i + 1)));
-        }
-        for (int i = 0; i < MAX_PASSES; i++) {
-            tenacyContracts.add((Contract) getIntent().getExtras().getSerializable("tenacy" + (i + 1)));
-        }
-        for (int i = 0; i < MAX_PASSES; i++) {
-            tickets.add((Ticket) getIntent().getExtras().getSerializable("ticket" + (i + 1)));
-        }
+        User user = instance.getUserWithId(getIntent().getStringExtra("user"));
 
         LayoutInflater inflater = (LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
@@ -80,22 +66,30 @@ public class DetailedUserViewActivity extends ActionBarActivity {
         if (user.getOwnershipContracts().size() > 0) {
             if (user.getOwnershipContracts().size() == 1) {
                 //dynamically set title
-                Log.d("debug",user.getOwnershipContracts().size() + "");
                 ownershipListTitle.setText(getString(R.string.OwnershipTitle));
 
             }
+
             for (int i = 0; i < user.getOwnershipContracts().size(); i++) {
+                final Contract contract = instance.getContractWithId(user.getOwnershipContracts().get(i));
+
                 final View view = inflater.inflate(R.layout.detailedownerright, null);
+                TextView text = (TextView) view.findViewById(R.id.berth);
+                CheckBox free = (CheckBox) view.findViewById(R.id.checkboxFree);
+                text.setText(contract.getBerth());
+                free.setChecked(contract.isFree());
+                final int item = i;
                 view.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        Intent intent = new Intent(getBaseContext(), DetailedBerthViewActivity.class);
+
+                        intent.putExtra("berth", contract.getBerthID());
+                        startActivity(intent);
+
+
                     }
                 });
-                TextView text = (TextView) view.findViewById(R.id.berth);
-                CheckBox free = (CheckBox) view.findViewById(R.id.checkboxFree);
-                text.setText(ownershipContracts.get(i).getBerth());
-                free.setChecked(ownershipContracts.get(i).isFree());
-
                 ownershipList.addView(view);
 
             }
@@ -114,10 +108,27 @@ public class DetailedUserViewActivity extends ActionBarActivity {
 
             }
             for (int i = 0; i < user.getTenancyContracts().size(); i++) {
+                final Contract contract = instance.getContractWithId(user.getTenancyContracts().get(i));
                 View view = inflater.inflate(R.layout.detailedtenacy, null);
-                view.setOnClickListener(null);
-                TextView text = (TextView) view.findViewById(R.id.berth);
-                text.setText(tenacyContracts.get(i).getBerth());
+                TextView textViewBerth = (TextView) view.findViewById(R.id.berth);
+                TextView textViewButtonFree = (TextView) view.findViewById(R.id.textViewButtonFree);
+                textViewButtonFree.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Log.d("Debug", "Click");
+                    }
+                });
+                textViewBerth.setText(contract.getBerth());
+                final int item = i;
+                view.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(getBaseContext(), DetailedBerthViewActivity.class);
+
+                        intent.putExtra("berth", contract.getBerthID());
+                        startActivity(intent);
+                    }
+                });
                 tenacyrightsList.addView(view);
             }
         } else {
@@ -128,19 +139,18 @@ public class DetailedUserViewActivity extends ActionBarActivity {
         // fill the ticketlist
         if (user.getTickets().size() > 0) {
             //dynamically set title
-            ticketListTitle.setText(getString(R.string.QueueTitleLong));
-            if (user.getTickets().size() != 1) {
-                ticketListTitle.setText(getString(R.string.QueueTitleLongPlural));
+            if (user.getTickets().size() == 1) {
+                ticketListTitle.setText(getString(R.string.QueueTitleLong));
             }
             for (int i = 0; i < user.getTickets().size(); i++) {
+                Ticket ticket = instance.getTicketWithId(user.getTickets().get(i));
                 View view = inflater.inflate(R.layout.detailedticket, null);
-                view.setOnClickListener(null);
                 TextView queue = (TextView) view.findViewById(R.id.queue);
                 TextView place = (TextView) view.findViewById(R.id.place);
                 TextView wish = (TextView) view.findViewById(R.id.wish);
-                queue.setText(tickets.get(i).getQueue());
-                place.setText(tickets.get(i).getPlace());
-                wish.setText(tickets.get(i).getWish());
+                queue.setText(ticket.getQueue());
+                place.setText(ticket.getPlace());
+                wish.setText(ticket.getWish());
                 ticketList.addView(view);
 
             }
@@ -186,4 +196,8 @@ public class DetailedUserViewActivity extends ActionBarActivity {
     }
 
 
+    @Override
+    public void onClick(View v) {
+
+    }
 }

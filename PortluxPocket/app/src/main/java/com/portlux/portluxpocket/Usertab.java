@@ -49,7 +49,7 @@ public class Usertab extends android.support.v4.app.Fragment implements AdapterV
 
 
             //Put content
-            intent.putExtra("id", user);
+            intent.putExtra("user", user.getId());
             for (int i = 0; i < user.getOwnershipContracts().size(); i++) {
                 for(Contract contract: contracts){
                     if(contract.getId().equalsIgnoreCase(user.getOwnershipContracts().get(i))){

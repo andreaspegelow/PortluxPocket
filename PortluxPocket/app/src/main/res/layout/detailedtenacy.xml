@@ -34,33 +34,29 @@
 
 
 
-        <ImageView
-            android:id="@+id/freeButton"
-            android:layout_width="100dp"
-            android:layout_height="35dp"
-            android:background="@drawable/button"
-            android:clickable="true"
-            android:paddingRight="10dp"
-            android:text="@string/away"
-            android:textSize="14sp"
-
-            />
 
         <TextView
+            android:id="@+id/textViewButtonFree"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:layout_marginRight="6dp"
+            android:background="@drawable/button"
+            android:paddingRight="15dp"
+            android:paddingLeft="10dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
             android:text="@string/away"
             android:textColor="@color/OffWhite"
-            android:layout_marginLeft="-86dp"
-            android:layout_marginRight="25dp"
-            android:layout_marginTop="7dp"
-            android:textSize="16sp"/>
+            android:textSize="16sp"
+            android:clickable="true"/>
+
         <ImageView
             android:id="@+id/freeIndicator"
             android:layout_width="6dp"
             android:layout_height="6dp"
-            android:layout_marginRight="6dp"
-            android:layout_marginLeft="-13dp"
+            android:layout_marginLeft="-17dp"
+            android:layout_marginRight="8dp"
             android:layout_marginTop="6dp"
             android:background="@drawable/freeidicator" />
         <!--android:background="?android:attr/selectableItemBackground"-->
@@ -71,6 +67,6 @@
     <ImageView
         android:layout_width="fill_parent"
         android:layout_height="1dp"
-        android:src="@drawable/div"
-        android:layout_marginTop="6dp"/>
+        android:layout_marginTop="6dp"
+        android:src="@drawable/div" />
 </LinearLayout>
