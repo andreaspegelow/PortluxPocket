@@ -21,7 +21,6 @@ public class SearchBerthAdapter extends BaseAdapter implements CompoundButton.On
     private ArrayList<User> users;
     private ArrayList<Berth> berths;
     private ArrayList<Contract> contracts;
-    private ArrayList<Ticket> tickets;
     private Context context;
     private ArrayList checked = new ArrayList<>();
     Berth berth;

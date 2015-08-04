@@ -1,5 +1,7 @@
 package com.portlux.portluxpocket;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 
 /**
@@ -55,7 +57,7 @@ public final class Data {
         this.tickets = tickets;
     }
 
-    public User getUserWithId(String id)  {
+    public User getUserWithId(String id) {
         for (User user : users) {
             if (user.getId().equalsIgnoreCase(id)) {
 
@@ -73,22 +75,41 @@ public final class Data {
         }
         return null;
     }
-    public Contract getContractWithId(String id){
 
-        for(Contract contract: contracts){
-            if(contract.getId().equalsIgnoreCase(id)){
+    public Contract getContractWithId(String id) {
+
+        for (Contract contract : contracts) {
+            if (contract.getId().equalsIgnoreCase(id)) {
                 return contract;
             }
         }
         return null;
     }
-    public Ticket getTicketWithId(String id){
-        for(Ticket ticket: tickets){
-            if(ticket.getId().equalsIgnoreCase(id)){
+
+    public Ticket getTicketWithId(String id) {
+        for (Ticket ticket : tickets) {
+            if (ticket.getId().equalsIgnoreCase(id)) {
                 return ticket;
             }
         }
         return null;
+    }
+
+    public void setUserWithId(String id, User newUser) {
+        for (User user : users) {
+            if (user.getId().equalsIgnoreCase(id)) {
+                user = newUser;
+            }
+        }
+    }
+    public void setBerthWithId(String id, Berth newBerth) {
+
+        for (Berth berth : berths) {
+            if (berth.getId().equalsIgnoreCase(id)) {
+                berth = newBerth;
+
+            }
+        }
     }
 
 

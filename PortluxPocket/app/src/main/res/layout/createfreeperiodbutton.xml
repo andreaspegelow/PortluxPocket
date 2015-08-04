@@ -7,11 +7,11 @@
 
 
     <TextView
-        android:id="@+id/queue"
+        android:id="@+id/free"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_weight="1"
-        android:text="@string/Standinline"
+        android:text="@string/createFreePeriod"
         android:textColor="#000000"
         android:textSize="14dp"
         android:background="?android:attr/selectableItemBackground"/>

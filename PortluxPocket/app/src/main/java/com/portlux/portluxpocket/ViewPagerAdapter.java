@@ -18,7 +18,7 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
 
     Usertab tab1 = new Usertab();
     Berthtab tab2 = new Berthtab();
-
+    Guesttab tab3 = new Guesttab();
 
     // Build a Constructor and assign the passed Values to appropriate values in the class
     public ViewPagerAdapter(FragmentManager fm, CharSequence mTitles[], int mNumbOfTabsumb) {
@@ -32,16 +32,16 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
     //This method return the fragment for the every position in the View Pager
     @Override
     public Fragment getItem(int position) {
-
-        if (position == 0) // if the position is 0 we are returning the First tab
-        {
-
-            return tab1;
-        } else             // As we are having 2 tabs if the position is now 0 it must be 1 so we are returning second tab
-        {
-            return tab2;
+        switch (position) {
+            case 0:
+                return tab1;
+            case 1:
+                return tab2;
+            case 2:
+                return tab3;
         }
 
+        return null;
 
     }
 
@@ -59,15 +59,16 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
         return NumbOfTabs;
     }
 
-    public void updateUserData(ArrayList<User> data) {
-        tab1.updateData(data);
+    public void setInitData(Context context, ArrayList<Contract> contracts, ArrayList<Ticket> tickets, ArrayList<User> users) {
+        tab1.setInitData(context, tickets, contracts);
+        tab2.setInitData(context, contracts, users);
+        tab3.setInitData(context);
+
 
     }
 
-    public void setInitData(Context context, ArrayList<Contract> contracts, ArrayList<Ticket> tickets,  ArrayList<User> users) {
-        tab1.setInitData(context,tickets, contracts);
-        tab2.setInitData(context,contracts,users);
-
+    public void updateUserData(ArrayList<User> data) {
+        tab1.updateData(data);
 
     }
 
@@ -90,6 +91,19 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
 
     public void setBerthListEmpty() {
         tab2.setListEmpty();
+
+    }
+
+    public void updateFreeBerthData(ArrayList<Berth> data) {
+        tab3.updateData(data);
+    }
+
+    public void setFreeBerthListFull() {
+        tab3.setListFull();
+    }
+
+    public void setFreeBerthListEmpty() {
+        tab3.setListEmpty();
 
     }
 }

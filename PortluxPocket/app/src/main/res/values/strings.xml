@@ -42,10 +42,15 @@
     <string name="away">Ledighet</string>
     <string name="place">Plats:</string>
     <string name="queuePlace">Köplats:</string>
-    <string name="Standinline">Skapa ny köplats</string>
+    <string name="Standinline">+ Skapa ny köplats</string>
     <string name="wish">Önskan:</string>
     <string name="harbour">Hamn:</string>
     <string name="FreeTitle">Ledig som gästplats</string>
     <string name="freeforguests">Ledig som gästplats</string>
+    <string name="notfreeforguests">Ej ledig som gästplats</string>
+    <string name="From">Från</string>
+    <string name="Until">Till:</string>
+    <string name="title_activity_guest_tab">GuestTab</string>
+    <string name="createFreePeriod">+ Lägg till som gästplats</string>
 
 </resources>

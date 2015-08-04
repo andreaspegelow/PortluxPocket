@@ -49,15 +49,23 @@
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="5dp"
                 android:orientation="horizontal">
 
                 <TextView
+                    android:id="@+id/textViewFreeForGuestsTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="right"
-                    android:text="@string/freeforguests" />
+                    android:text="@string/notfreeforguests" />
+                <ImageView
+                    android:id="@+id/freeIndicator"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="3dp"
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:background="@drawable/notfreeindicator"/>
 
             </LinearLayout>
 
@@ -85,13 +93,15 @@
 
             <TextView
                 android:id="@+id/textViewOwnership"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
                 android:paddingBottom="6dp"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:paddingTop="6dp"
-                android:text="ägare" />
+                android:text="ägare"
+                android:textColor="#000000"
+                android:background="?android:attr/selectableItemBackground"/>
 
         </LinearLayout>
 
@@ -116,13 +126,15 @@
 
             <TextView
                 android:id="@+id/textViewTenacy"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
                 android:paddingBottom="6dp"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:paddingTop="6dp"
-                android:text="hyrare" />
+                android:text="hyrare"
+                android:textColor="#000000"
+                android:background="?android:attr/selectableItemBackground"/>
 
         </LinearLayout>
 
@@ -144,12 +156,20 @@
                 android:text="@string/FreeTitle"
                 android:textColor="@color/OffWhite" />
 
-            <ListView
-                android:id="@+id/listViewFree"
-                android:layout_width="wrap_content"
+            <ScrollView
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+                <LinearLayout
+                    android:id="@+id/freePeriodList"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    >
 
-            </ListView>
+
+                </LinearLayout>
+
+            </ScrollView>
 
         </LinearLayout>
     </LinearLayout>

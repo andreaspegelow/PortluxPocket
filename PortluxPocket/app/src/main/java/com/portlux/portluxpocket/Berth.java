@@ -1,5 +1,7 @@
 package com.portlux.portluxpocket;
 
+import android.util.Log;
+
 import org.joda.time.DateTime;
 import org.joda.time.Duration;
 import org.joda.time.Instant;
@@ -79,6 +81,7 @@ public class Berth implements Serializable {
 
     public void addFreePeriod(GuestPeriod period) {
         freePeriods.add(period);
+        Log.d("click", "5");
     }
 
     public ArrayList<GuestPeriod> getFreePeriods() {
@@ -87,8 +90,10 @@ public class Berth implements Serializable {
 
     public boolean isFreeForGuests() {
 
+
         for (GuestPeriod period : freePeriods) {
             if (period.isNow()) {
+
                 return true;
             }
 

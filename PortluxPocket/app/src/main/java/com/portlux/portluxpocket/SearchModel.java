@@ -95,6 +95,17 @@ public class SearchModel {
 
         return searchResult;
     }
+    public ArrayList<Berth> searchForFreeBerth(String querry) {
+        ArrayList<Berth> searchResult = new ArrayList<Berth>();
+
+        for (Berth berth : berths) {
+            if (berth.getBerth().toLowerCase().contains(querry.toLowerCase())&&berth.isFreeForGuests()) {
+                searchResult.add(berth);
+            }
+        }
+
+        return searchResult;
+    }
 
     private void getDataFromDatabase() {
         callUsers();

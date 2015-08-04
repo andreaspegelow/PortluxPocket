@@ -9,4 +9,5 @@
     <color name="lightText">#808080</color>
     <color name="red">#de4b4b</color>
     <color name="green">#4bde4b</color>
+    <color name="black">#000000</color>
 </resources>

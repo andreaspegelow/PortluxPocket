@@ -11,7 +11,8 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:background="?android:attr/selectableItemBackground">
 
         <TextView
 
@@ -58,7 +59,7 @@
             android:layout_marginLeft="-17dp"
             android:layout_marginRight="8dp"
             android:layout_marginTop="6dp"
-            android:background="@drawable/freeidicator" />
+            android:background="@drawable/notfreeindicator" />
         <!--android:background="?android:attr/selectableItemBackground"-->
 
 

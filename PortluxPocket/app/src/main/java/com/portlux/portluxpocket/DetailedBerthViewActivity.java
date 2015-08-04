@@ -1,16 +1,28 @@
 package com.portlux.portluxpocket;
 
+import android.content.Context;
 import android.content.Intent;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewManager;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
+
+import org.joda.time.DateTime;
 
 
 public class DetailedBerthViewActivity extends ActionBarActivity {
+    private ImageView freeIndicator;
+
+    private TextView freeForGuestsTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,10 +35,18 @@ public class DetailedBerthViewActivity extends ActionBarActivity {
         TextView harbourTextView = (TextView) findViewById(R.id.textViewHarbour);
         TextView ownerTextView = (TextView) findViewById(R.id.textViewOwnership);
         TextView tenacyTextView = (TextView) findViewById(R.id.textViewTenacy);
+        freeForGuestsTextView = (TextView) findViewById(R.id.textViewFreeForGuestsTitle);
+        freeIndicator = (ImageView) findViewById(R.id.freeIndicator);
+        LinearLayout freePeriodList = (LinearLayout) findViewById(R.id.freePeriodList);
+
 
         final Berth berth = instance.getBethWithId(getIntent().getExtras().getString("berth"));
         berthTextView.setText(berth.getBerth());
         harbourTextView.setText(berth.getHarbour());
+
+        if (berth.isFreeForGuests()) {
+            setFree();
+        }
 
         final User tempOwnershipUser = instance.getUserWithId(berth.getOwnershipUserId());
 
@@ -35,7 +55,7 @@ public class DetailedBerthViewActivity extends ActionBarActivity {
             ownerTextView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(getBaseContext(),DetailedUserViewActivity.class);
+                    Intent intent = new Intent(getBaseContext(), DetailedUserViewActivity.class);
                     intent.putExtra("user", tempOwnershipUser.getId());
                     startActivity(intent);
                 }
@@ -45,15 +65,15 @@ public class DetailedBerthViewActivity extends ActionBarActivity {
             TextView title = (TextView) findViewById(R.id.textViewOwnershipTitle);
             ((ViewManager) title.getParent()).removeView(title);
         }
-        final User tempTenacyUser = instance.getUserWithId(berth.getTenancyUserId());
+        final User tempTenancyUser = instance.getUserWithId(berth.getTenancyUserId());
 
-        if (tempTenacyUser != null) {
-            tenacyTextView.setText(tempTenacyUser.getFullName());
+        if (tempTenancyUser != null) {
+            tenacyTextView.setText(tempTenancyUser.getFullName());
             tenacyTextView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(getBaseContext(), DetailedUserViewActivity.class);
-                    intent.putExtra("user", tempTenacyUser.getId());
+                    intent.putExtra("user", tempTenancyUser.getId());
                     startActivity(intent);
                 }
             });
@@ -63,6 +83,38 @@ public class DetailedBerthViewActivity extends ActionBarActivity {
             ((ViewManager) title.getParent()).removeView(title);
         }
 
+        LayoutInflater inflater = (LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        for (GuestPeriod period : berth.getFreePeriods()) {
+            View view = inflater.inflate(R.layout.guestperiodrow, null);
+            TextView from = (TextView) view.findViewById(R.id.textViewFrom);
+            TextView until = (TextView) view.findViewById(R.id.textViewUntil);
+
+            //TODO: format dates
+            from.setText(period.getFrom().getYear() + "-0" + period.getFrom().getMonthOfYear() + "-" + period.getFrom().getDayOfMonth());
+            until.setText(period.getUntil().getYear() + "-" + period.getUntil().getMonthOfYear() + "-" + period.getUntil().getDayOfMonth());
+            freePeriodList.addView(view);
+        }
+        View view = inflater.inflate(R.layout.createfreeperiodbutton, null);
+
+        //TODO: why does this make it work? try remove the line below
+        DateTime d = new DateTime(32, 12, 2, 3, 32);
+
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                berth.addFreePeriod(new GuestPeriod(new DateTime(2015, 7, 11, 0, 0), new DateTime(2015, 10, 14, 0, 0)));
+                instance.setBerthWithId(berth.getId(), berth);
+                if (berth.isFreeForGuests()) {
+                    Intent i = new Intent(getBaseContext(), DetailedBerthViewActivity.class);
+                    i.putExtra("berth", berth.getId());
+                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(i);
+
+                }
+            }
+        });
+        freePeriodList.addView(view);
     }
 
     @Override
@@ -85,5 +137,12 @@ public class DetailedBerthViewActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void setFree() {
+        freeForGuestsTextView.setText(getString(R.string.freeforguests));
+        freeIndicator.setBackground(ContextCompat.getDrawable(this, R.drawable.freeidicator));
+        Log.d("ds", "freeee");
+
     }
 }

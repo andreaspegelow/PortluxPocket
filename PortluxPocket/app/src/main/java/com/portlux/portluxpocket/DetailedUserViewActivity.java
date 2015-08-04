@@ -3,6 +3,7 @@ package com.portlux.portluxpocket;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,6 +13,7 @@ import android.view.View;
 import android.view.ViewManager;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -112,10 +114,15 @@ public class DetailedUserViewActivity extends ActionBarActivity implements View.
                 View view = inflater.inflate(R.layout.detailedtenacy, null);
                 TextView textViewBerth = (TextView) view.findViewById(R.id.berth);
                 TextView textViewButtonFree = (TextView) view.findViewById(R.id.textViewButtonFree);
+                ImageView freeIndicator = (ImageView) view.findViewById(R.id.freeIndicator);
+                if(instance.getBethWithId(contract.getBerthID()).isFreeForGuests()){
+                    freeIndicator.setBackground(ContextCompat.getDrawable(this, R.drawable.freeidicator));
+                }
                 textViewButtonFree.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Log.d("Debug", "Click");
+                        
+
                     }
                 });
                 textViewBerth.setText(contract.getBerth());

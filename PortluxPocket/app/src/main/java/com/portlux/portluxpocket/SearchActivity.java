@@ -22,15 +22,13 @@ import java.util.ArrayList;
 public class SearchActivity extends ActionBarActivity implements TextWatcher, PropertyChangeListener {
     private EditText searchField;
 
-
-    private ArrayAdapter adapter;
     private boolean userDone = false;
     private boolean berthDone = false;
 
     private SearchModel model;
     private ArrayList<Berth> berthSearchResult = new ArrayList<Berth>();
+    private ArrayList<Berth> freeBerthSearchResult = new ArrayList<Berth>();
     private ArrayList<User> userSearchResult = new ArrayList<User>();
-    private ArrayList search = new ArrayList();
 
     private Toolbar toolbar;
 
@@ -38,8 +36,8 @@ public class SearchActivity extends ActionBarActivity implements TextWatcher, Pr
     private ViewPager pager;
     private ViewPagerAdapter tabsAdapter;
     private SlidingTabLayout tabs;
-    private CharSequence Titles[] = {"Användare", "Båtplatser"};
-    private int Numboftabs = 2;
+    private CharSequence Titles[] = {"Kunder", "Båtplatser", "Gästplatser"};
+    private int Numboftabs = 3;
 
 
     @Override
@@ -59,9 +57,6 @@ public class SearchActivity extends ActionBarActivity implements TextWatcher, Pr
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         searchField = (EditText) findViewById(R.id.searchField);
         searchField.addTextChangedListener(this);
-
-
-        adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, search);
 
 
         tabsAdapter = new ViewPagerAdapter(getSupportFragmentManager(), Titles, Numboftabs);
@@ -107,7 +102,6 @@ public class SearchActivity extends ActionBarActivity implements TextWatcher, Pr
     @Override
     public void onPause() {
         super.onPause();
-        Log.d("ds", "Paused");
     }
 
     @Override
@@ -151,6 +145,14 @@ public class SearchActivity extends ActionBarActivity implements TextWatcher, Pr
         } else {
             tabsAdapter.setBerthListEmpty();
         }
+        freeBerthSearchResult = model.searchForFreeBerth(searchField.getText().toString());
+        if (!freeBerthSearchResult.isEmpty()) {
+            tabsAdapter.setFreeBerthListFull();
+            tabsAdapter.updateFreeBerthData(freeBerthSearchResult);
+        } else {
+            tabsAdapter.setFreeBerthListEmpty();
+        }
+
     }
 
 
@@ -173,6 +175,8 @@ public class SearchActivity extends ActionBarActivity implements TextWatcher, Pr
             tabsAdapter.updateUserData(userSearchResult);
             berthSearchResult = model.searchForBerth("");
             tabsAdapter.updateBerthData(berthSearchResult);
+            freeBerthSearchResult = model.searchForFreeBerth("");
+            tabsAdapter.updateFreeBerthData(freeBerthSearchResult);
         }
 
 
