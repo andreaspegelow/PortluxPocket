@@ -36,7 +36,7 @@ public class SearchActivity extends ActionBarActivity implements TextWatcher, Pr
     private ViewPager pager;
     private ViewPagerAdapter tabsAdapter;
     private SlidingTabLayout tabs;
-    private CharSequence Titles[] = {"Kunder", "Båtplatser", "Gästplatser"};
+    private CharSequence Titles[] = {"Kunder", "Båtplatser", "Gästplatse"};
     private int Numboftabs = 3;
 
 

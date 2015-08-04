@@ -50,7 +50,6 @@ public class SearchUserAdapter extends BaseAdapter {
         ViewHolder holder;
 
 
-
         // check if the view already exists
         if (convertView == null) {
 
@@ -73,29 +72,20 @@ public class SearchUserAdapter extends BaseAdapter {
         }
 
         User user = (User) getItem(position);
+        Data instance = Data.getInstance();
 
         //Set the name
-        holder.textViewName.setText(user.getFirstName()+ " "+ user.getLastName());
+        holder.textViewName.setText(user.getFirstName() + " " + user.getLastName());
 
         String ownershipContracts = "";
         String tenancyContracts = "";
 
         //Create the strings contracts to display.
         for (String id : user.getOwnershipContracts()) {
-
-            for (Contract contract : contracts) {
-                if (id.equalsIgnoreCase(contract.getId())) {
-                    ownershipContracts += contract.getBerth() + ", ";
-
-                }
-            }
+            ownershipContracts += instance.getContractWithId(id).getBerth() + ", ";
         }
         for (String id : user.getTenancyContracts()) {
-            for (Contract contract : contracts) {
-                if (id.equalsIgnoreCase(contract.getId())) {
-                    tenancyContracts += contract.getBerth() + ", ";
-                }
-            }
+            tenancyContracts += instance.getContractWithId(id).getBerth() + ", ";
         }
 
 
@@ -122,6 +112,10 @@ public class SearchUserAdapter extends BaseAdapter {
                     queues += ticket.getQueue() + ", ";
                 }
             }
+        }
+        for (String id : user.getTickets()) {
+            instance.getTicketWithId(id);
+            queues += instance.getTicketWithId(id).getQueue() + ", ";
         }
         //remove the lats ", "
         if (queues.length() > 0) {

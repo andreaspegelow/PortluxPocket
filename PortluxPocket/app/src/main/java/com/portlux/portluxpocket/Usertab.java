@@ -50,29 +50,6 @@ public class Usertab extends android.support.v4.app.Fragment implements AdapterV
 
             //Put content
             intent.putExtra("user", user.getId());
-            for (int i = 0; i < user.getOwnershipContracts().size(); i++) {
-                for(Contract contract: contracts){
-                    if(contract.getId().equalsIgnoreCase(user.getOwnershipContracts().get(i))){
-                        intent.putExtra("ownership"+(i+1),contract);
-                    }
-                }
-            }
-            for (int i = 0; i < user.getTenancyContracts().size(); i++) {
-                for(Contract contract: contracts){
-                    if(contract.getId().equalsIgnoreCase(user.getTenancyContracts().get(i))){
-                        intent.putExtra("tenacy"+(i+1),contract);
-                    }
-                }
-            }
-            for (int i = 0; i < user.getTickets().size(); i++) {
-                for(Ticket ticket: tickets){
-                    if(ticket.getId().equalsIgnoreCase(user.getTickets().get(i))){
-                        intent.putExtra("ticket"+(i+1),ticket);
-                    }
-                }
-            }
-
-
 
             // start the next Activity using your Intent
             startActivity(intent);
