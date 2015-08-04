@@ -63,7 +63,9 @@ public class SearchActivity extends ActionBarActivity implements TextWatcher, Pr
 
         // Assigning ViewPager View and setting the adapter
         pager = (ViewPager) findViewById(R.id.pager);
+        pager.setOffscreenPageLimit(3);
         pager.setAdapter(tabsAdapter);
+
 
         // Assiging the Sliding Tab Layout View
         tabs = (SlidingTabLayout) findViewById(R.id.tabs);

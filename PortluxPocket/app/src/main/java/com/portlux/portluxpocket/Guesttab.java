@@ -69,7 +69,9 @@ public class Guesttab extends android.support.v4.app.Fragment implements Adapter
      * Switches between an empty list and on filled with users
      */
     public void setListEmpty() {
-        listView.setAdapter(emptylist);
+        if(listView != null) {
+            listView.setAdapter(emptylist);
+        }
 
     }
 

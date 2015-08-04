@@ -33,7 +33,6 @@ public class Usertab extends android.support.v4.app.Fragment implements AdapterV
         listView = (ListView) v.findViewById(R.id.list);
         listView.setOnItemClickListener(this);
         msg.add("Inga resultat hittades");
-
         listAdapter = new SearchUserAdapter(inflater);
         listView.setAdapter(listAdapter);
         return v;
@@ -76,7 +75,9 @@ public class Usertab extends android.support.v4.app.Fragment implements AdapterV
      * Switches between an empty list and on filled with users
      */
     public void setListEmpty() {
-        listView.setAdapter(emptylist);
+        if(listView != null){
+            listView.setAdapter(emptylist);
+        }
 
     }
 

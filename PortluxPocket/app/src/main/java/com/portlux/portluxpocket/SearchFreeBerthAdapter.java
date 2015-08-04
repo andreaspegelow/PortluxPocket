@@ -56,7 +56,7 @@ public class SearchFreeBerthAdapter extends BaseAdapter {
         if (convertView == null) {
 
             // Inflate the custom row layout.
-            convertView = inflater.inflate(R.layout.rowberth, null);
+            convertView = inflater.inflate(R.layout.rowguest, null);
 
             // create a new Holder with subviews
             holder = new ViewHolder();

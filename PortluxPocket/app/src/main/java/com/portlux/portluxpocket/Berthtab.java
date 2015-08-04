@@ -45,7 +45,6 @@ public class Berthtab extends android.support.v4.app.Fragment implements Adapter
         if (listView.getAdapter().equals(listAdapter)) {
 
             Berth berth = data.get(position);
-
             // create an Intent to go to the detaildview
             Intent intent = new Intent(context, DetailedBerthViewActivity.class);
             intent.putExtra("berth", berth.getId());
@@ -71,7 +70,9 @@ public class Berthtab extends android.support.v4.app.Fragment implements Adapter
      * Switches between an empty list and on filled with users
      */
     public void setListEmpty() {
-        listView.setAdapter(emptylist);
+        if(listView != null) {
+            listView.setAdapter(emptylist);
+        }
 
     }
 
